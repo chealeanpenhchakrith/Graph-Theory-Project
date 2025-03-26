@@ -51,12 +51,15 @@ while (condition):
                     print("The graph in form of triplets looks like this :\n")
                     fct.graphInFormOfTriplets(updatedData)
                     print("\n")
+
+                    #Creating the empty adjacency matrix
+                    print("The empty adjacency matrix is ", fct.createEmptyAdjacencyMatrix(updatedData))
                 
-            except:
+            except NameError:
                 print("The input must be between 1 and 14. Please enter again !")
 
         #Catch the error
-        except:
+        except NameError:
             print("An error occured")
     
     #Set the boolean to false if the user don't want to continue

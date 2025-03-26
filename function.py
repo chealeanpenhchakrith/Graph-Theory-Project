@@ -51,4 +51,16 @@ def graphInFormOfTriplets(updatedList):
                 print(f"{updatedList[i][j]} -> {updatedList[i][0]} = 0")
             else:
                 if (j >= 2 and j < iteration2 and updatedList[i][j] != '0'):
-                    print(f"{updatedList[i][j]} -> {updatedList[i][0]} = {updatedList[i][1]}")         
+                    print(f"{updatedList[i][j]} -> {updatedList[i][0]} = {updatedList[i][1]}")
+
+#Define a function that represents the graph in a value matrix form
+def createEmptyAdjacencyMatrix(updatedList):
+    emptyAdjacencyMatrix = []
+    temporaryRow = []
+    verticeCounter = len(updatedList) + 1
+    for row in range (verticeCounter):
+        for column in range (verticeCounter):
+            temporaryRow.append(0)
+        emptyAdjacencyMatrix.append(temporaryRow)
+        temporaryRow = []
+    return emptyAdjacencyMatrix
