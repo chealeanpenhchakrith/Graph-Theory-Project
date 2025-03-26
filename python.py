@@ -13,6 +13,8 @@ while (condition):
                 print("\n \n \n")
                 print(fct.displayUpdatedDataFile(updatedData))
                 print(fct.edgeCounter(updatedData))
+                print("\n")
+                fct.graphInFormOfTriplets(updatedData)
         except NameError:
             print("There was an error")
             

@@ -42,7 +42,7 @@ def edgeCounter(dataStored):
     return edgeCounter
 
 #Define a function that displays the graph as a form of triplets
-def graphInFormOfTripets(updatedList):
+def graphInFormOfTriplets(updatedList):
     iteration1 = len(updatedList)
     for i in range (iteration1):
         iteration2 = len(updatedList[i])
