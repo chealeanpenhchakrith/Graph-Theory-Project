@@ -54,6 +54,13 @@ while (condition):
 
                     #Creating the empty adjacency matrix
                     print("The empty adjacency matrix is ", fct.createEmptyAdjacencyMatrix(updatedData))
+
+                    #Displaying the adjacency matrix
+                    print("The adjacency matrix looks like : ")
+                    fct.displayAdjacencyMatrix(fct.createEmptyAdjacencyMatrix(updatedData))
+
+                    #Displaying the list of vertices
+                    print("The list of vertices is : ", fct.verticeIndex(updatedData))
                 
             except NameError:
                 print("The input must be between 1 and 14. Please enter again !")

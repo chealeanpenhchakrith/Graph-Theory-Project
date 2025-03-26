@@ -64,3 +64,16 @@ def createEmptyAdjacencyMatrix(updatedList):
         emptyAdjacencyMatrix.append(temporaryRow)
         temporaryRow = []
     return emptyAdjacencyMatrix
+
+#Define a function that displays the adjacency matrix in a value form 
+def displayAdjacencyMatrix(matrix):
+    matrixLength = len(matrix)
+    for i in range (matrixLength):
+        print(matrix[i])
+
+def verticeIndex(updatedList):
+    verticeCounter = len(updatedList)
+    verticeList = []
+    for i in range (verticeCounter + 1):
+        verticeList.append(i)
+    return verticeList
