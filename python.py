@@ -9,8 +9,10 @@ while (condition):
                 data = fct.storeDataInMemory(f)
                 print(fct.verticeCounter(data))
                 updatedData = fct.fillsPredecessor(data)
+                print(updatedData)
                 print("\n \n \n")
                 print(fct.displayUpdatedDataFile(updatedData))
+                print(fct.edgeCounter(updatedData))
         except NameError:
             print("There was an error")
             
@@ -18,22 +20,6 @@ while (condition):
         condition = False
     else:
         print("The value entered is incorrect")
-
-#Open and close the constraint table file at the end of the block
-#with open('./Test Constraint Tables Mar 22 2025/table 1.txt', 'r') as f : 
-
-    
-    # #Store data content within the file in memory
-    # data = f.readlines()
-
-    
-
-    # # Calculate the number of lines within the file
-    # line_count = 0
-
-    # for line in data:
-    #     line_count += 1
-    # print("Total lines :", line_count)
 
     # #Deduce the number of vertices
     # verticeCounter = line_count

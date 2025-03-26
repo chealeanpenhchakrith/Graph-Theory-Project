@@ -23,9 +23,20 @@ def fillsPredecessor(dataStored):
             rowList.append(column)
     return rowList
 
+#Define a function that displays the updated data file
 def displayUpdatedDataFile(updatedList):
     listLength = len(updatedList)
     for i in range (listLength):
         print(updatedList[i])
 
-#Define a functin that computes the number of edges
+#Define a function that computes the number of edges
+def edgeCounter(dataStored):
+    dataStoredLength = len(dataStored)
+    edgeCounter = 0
+    for i in range (dataStoredLength):
+        column = len(dataStored[i])
+        j = 2
+        while (j != column):
+            edgeCounter += 1
+            j += 1
+    return edgeCounter
