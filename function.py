@@ -68,8 +68,10 @@ def createEmptyAdjacencyMatrix(updatedList):
 #Define a function that displays the adjacency matrix in a value form 
 def displayAdjacencyMatrix(matrix):
     matrixLength = len(matrix)
+    verticeTop = verticeIndex(matrix)
+    print("  ", *verticeTop)
     for i in range (matrixLength):
-        print(matrix[i])
+        print(i, matrix[i])
 
 def verticeIndex(updatedList):
     verticeCounter = len(updatedList)
