@@ -10,14 +10,13 @@ while (condition):
                 print(fct.verticeCounter(data))
                 updatedData = fct.fillsPredecessor(data)
                 print(updatedData)
-                print("\n \n \n")
+                print("\n")
                 print(fct.displayUpdatedDataFile(updatedData))
                 print(fct.edgeCounter(updatedData))
                 print("\n")
                 fct.graphInFormOfTriplets(updatedData)
         except NameError:
             print("There was an error")
-            
     elif (userInput == 'n'):
         condition = False
     else:

@@ -52,4 +52,6 @@ def graphInFormOfTriplets(updatedList):
             else:
                 if (j >= 2 and j < iteration2 and updatedList[i][j] != '0'):
                     print(f"{updatedList[i][j]} -> {updatedList[i][0]} = {updatedList[i][1]}")
+
+
                     
