@@ -4,11 +4,13 @@ while (condition):
     userInput = input("Do you want to test a constraint table ? Answer by y or n : ")
     if (userInput == 'y'):
         try:
-            tableInput = input("Which table do you want to work with ? Please enter a number between 1 and 14 :")
+            tableInput = input("Which table do you want to work with ? Please enter a number between 1 and 14 : ")
             with open(f"./Test Constraint Tables Mar 22 2025/table {tableInput}.txt") as f:
                 data = fct.storeDataInMemory(f)
                 print(fct.verticeCounter(data))
-                #print(fct.fillsPredecessor(data))
+                updatedData = fct.fillsPredecessor(data)
+                print("\n \n \n")
+                print(fct.displayUpdatedDataFile(updatedData))
         except NameError:
             print("There was an error")
             

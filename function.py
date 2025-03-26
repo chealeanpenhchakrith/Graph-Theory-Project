@@ -12,11 +12,20 @@ def verticeCounter(dataStored):
     return verticeCounter
 
 #Define a function that fills with 0 rows that doesn't contain predecessor
-# def fillsPredecessor(dataStored):
-#     for line in dataStored:
-#         column = line.split()
-#         if (len(column) == 2):
-#             column.append(0)
-#     return column
+def fillsPredecessor(dataStored):
+    rowList = []
+    for line in dataStored:
+        column = line.split()
+        if (len(column) == 2):
+            column.append('0')
+            rowList.append(column)
+        else:
+            rowList.append(column)
+    return rowList
+
+def displayUpdatedDataFile(updatedList):
+    listLength = len(updatedList)
+    for i in range (listLength):
+        print(updatedList[i])
 
 #Define a functin that computes the number of edges
