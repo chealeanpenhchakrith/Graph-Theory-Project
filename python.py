@@ -67,6 +67,14 @@ while (condition):
                     #Displaying the list of vertices
                     print("The list of vertices is : ", fct.verticeIndex(updatedData), "\n")
 
+                    #Displaying the list of initialVertex,destinationVertex,edge
+                    print("The list of vertex, destination (vertex, edge, duration is) ", fct.edgeList(updatedData))
+                    print("The edge list looks like this : (vertex -> vertex = duration)")
+                    fct.displayEdgeList(fct.edgeList(updatedData))
+
+                    #Updating the empty matrix with correct edges
+                    #fct.updatedEmptyAdjacencyMatrix(updatedData, emptyMatrix)
+
                     print(f"###################################################################################")
                    
             except NameError:
