@@ -1,4 +1,5 @@
 from prettytable import PrettyTable
+from prettytable.colortable import ColorTable, Themes
 
 #Define a function to read and store the constraint table in memory
 def storeDataInMemory(constraintTableFile):
@@ -151,19 +152,16 @@ def updatedEmptyAdjacencyMatrix(edgeList, matrix):
             break
     return matrix
 
-# def displayWithPrettyTable(updatedMatrix):
-#     matrixLength = len(updatedMatrix)
-
-
-            
-#     # for i in range (matrixLength)
-    
-# value = 1
-# table = PrettyTable()
-# table.add_column(".", [0, 1, 2, 3])
-# table.add_column("0", [0, value, 0, 0])
-# table.add_column("1", [0, 0, 0, 0])
-# table.add_column("2", [0, 0, 0, 0])
-# table.add_column("3", [0, 0, 0, 0])
-
-#print(table)
+#Define a function that displays the adjacency matrix with a beautiful display
+def displayWithPrettyTable(updatedMatrix, updatedData):
+    matrixLength = len(updatedMatrix)
+    table = PrettyTable()
+    table = ColorTable(theme=Themes.LAVENDER)
+    verticeList = verticeIndex(updatedData)
+    verticeList.insert(0, ".")
+    table.field_names = verticeList
+    for i in range (matrixLength):
+        updatedMatrix[i].insert(0, i)
+    for j in range (matrixLength):
+        table.add_row(updatedMatrix[j])
+    print(table)
