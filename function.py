@@ -1,3 +1,5 @@
+from prettytable import PrettyTable
+
 #Define a function to read and store the constraint table in memory
 def storeDataInMemory(constraintTableFile):
     data = constraintTableFile.readlines()
@@ -51,4 +53,117 @@ def graphInFormOfTriplets(updatedList):
                 print(f"{updatedList[i][j]} -> {updatedList[i][0]} = 0")
             else:
                 if (j >= 2 and j < iteration2 and updatedList[i][j] != '0'):
-                    print(f"{updatedList[i][j]} -> {updatedList[i][0]} = {updatedList[i][1]}")         
+                    print(f"{updatedList[i][j]} -> {updatedList[i][0]} = {detectVerticeEdge(updatedList, int(updatedList[i][j]))}")
+
+#Define a function that represents the graph in a value matrix form
+def createEmptyAdjacencyMatrix(updatedList):
+    emptyAdjacencyMatrix = []
+    temporaryRow = []
+    verticeCounter = len(updatedList) + 1
+    for row in range (verticeCounter):
+        for column in range (verticeCounter):
+            temporaryRow.append(0)
+        emptyAdjacencyMatrix.append(temporaryRow)
+        temporaryRow = []
+    return emptyAdjacencyMatrix
+
+def displayEmptyAdjacencyMatrix(matrix):
+    matrixLength = len(matrix)
+    for i in range (matrixLength):
+        print(matrix[i])
+
+#Define a function that displays the adjacency matrix in a value form 
+def displayAdjacencyMatrix(matrix, updatedList):
+    matrixLength = len(matrix)
+    verticeTop = verticeIndex(updatedList)
+    print('    ', end = '')
+    for j in range (len(verticeTop)):
+        if (j >= 9 and j <= len(verticeTop)):
+            print(verticeTop[j], '', end='')
+        else:
+            print(verticeTop[j], '', end=' ')
+    print("")
+    for i in range (matrixLength):
+        if (i >= 0 and i <= 9):
+            print(i, "", matrix[i])
+        else:
+            print(i, matrix[i])
+
+#Define a function that return the list of vertex
+def verticeIndex(updatedList):
+    verticeCounter = len(updatedList)
+    verticeList = []
+    for i in range (verticeCounter):
+        verticeList.append(i)
+        if (i == verticeCounter-1):
+            verticeList.append(i+1)
+    return verticeList
+
+#Define a function that return a list of vertices, edges, duration
+def edgeList(updatedList):
+    edgeList = []
+    iteration1 = len(updatedList)
+    for i in range (iteration1):
+        iteration2 = len(updatedList[i])
+        for j in range (iteration2):
+            if (j == 2 and j < iteration2 and updatedList[i][j] == '0'):
+                tempEdgeList = []
+                tempEdgeList.append(updatedList[i][j])
+                tempEdgeList.append(updatedList[i][0])
+                tempEdgeList.append(0)
+                edgeList.append(tempEdgeList)
+            else:
+                if (j == 2 and j < iteration2 and updatedList[i][j] != '0'):
+                    tempEdgeList = []
+                    tempEdgeList.append(updatedList[i][j])
+                    tempEdgeList.append(updatedList[i][0])
+                    tempEdgeList.append(detectVerticeEdge(updatedList, int(updatedList[i][j])))
+                    edgeList.append(tempEdgeList)
+
+                else:
+                    if ( j > 2 and j < iteration2 and updatedList[i][j] != '0'):
+                        tempEdgeList = []
+                        tempEdgeList.append(updatedList[i][j])
+                        tempEdgeList.append(updatedList[i][0])
+                        tempEdgeList.append(detectVerticeEdge(updatedList, int(updatedList[i][j])))
+                        edgeList.append(tempEdgeList)
+    return edgeList
+
+#Define a function that display the edge list
+def displayEdgeList(edgeList):
+    edgeListLength = len(edgeList)
+    for i in range (edgeListLength):
+        print(edgeList[i])
+
+#Define a function that finds the respective duration according to the vertex
+def detectVerticeEdge(updatedList, lookingVertice):
+    verticeEdge = updatedList[lookingVertice-1][1]
+    return verticeEdge
+
+#Define a function that displays the adjacency matrix with correct edges
+def updatedEmptyAdjacencyMatrix(edgeList, matrix):
+    for i in range (len(edgeList)):
+        for j in range (len(edgeList[i])):
+            initialVertex = int(edgeList[i][j])
+            targetVertex = int(edgeList[i][1])
+            duration = int(edgeList[i][2])
+            matrix[initialVertex][targetVertex] = duration
+            break
+    return matrix
+
+# def displayWithPrettyTable(updatedMatrix):
+#     matrixLength = len(updatedMatrix)
+
+
+            
+#     # for i in range (matrixLength)
+    
+# value = 1
+# table = PrettyTable()
+# table.add_column(".", [0, 1, 2, 3])
+# table.add_column("0", [0, value, 0, 0])
+# table.add_column("1", [0, 0, 0, 0])
+# table.add_column("2", [0, 0, 0, 0])
+# table.add_column("3", [0, 0, 0, 0])
+
+#print(table)

@@ -17,7 +17,6 @@ while (condition):
                 
             #Storing user input
             tableInput = input("Which table do you want to work with ? Please enter a number between 1 and 14 : ")
-            print("The value entered must be between 1 and 14. Please enter again !")
 
             print("\n")
 
@@ -29,6 +28,8 @@ while (condition):
                     #Reading the file and store it in memory
                     data = fct.storeDataInMemory(f)
                     print("The data have been succesfully stored in memory !\n")
+                    print(f"#############################  Table : {tableInput}  ################################")
+
 
                     #Updating the data file by filling rows without predecessor
                     updatedData = fct.fillsPredecessor(data)
@@ -51,12 +52,50 @@ while (condition):
                     print("The graph in form of triplets looks like this :\n")
                     fct.graphInFormOfTriplets(updatedData)
                     print("\n")
-                
-            except:
+
+                    #Creating the empty adjacency matrix
+                    emptyMatrix = fct.createEmptyAdjacencyMatrix(updatedData)
+                    print("The empty adjacency matrix without label looks like this :  \n")
+                    fct.displayEmptyAdjacencyMatrix(emptyMatrix)
+                    print("\n")
+
+                    #Displaying the adjacency matrix
+                    print("The adjacency with labels looks like this :  \n")
+                    fct.displayAdjacencyMatrix(fct.createEmptyAdjacencyMatrix(updatedData), updatedData)
+                    print("\n")
+
+                    #Displaying the list of vertices
+                    print("The list of vertices is : ", fct.verticeIndex(updatedData), "\n")
+
+                    #Displaying the list of initialVertex,destinationVertex,edge
+                    print("The list of vertex, destination (vertex, edge, duration) is : \n", fct.edgeList(updatedData))
+                    edgeList = fct.edgeList(updatedData)
+                    print("\nThe edge list looks like this : (vertex -> vertex = duration)\n")
+                    fct.displayEdgeList(fct.edgeList(updatedData))
+
+                    #Updating the empty matrix with correct edges
+                    #fct.displayAdjacencyMatrix(fct.updatedEmptyAdjacencyMatrix(fct.edgeList(updatedData), emptyMatrix), updatedData)
+                    print("\n Checking that the value matrix is well updated ")
+
+                    emptyMatrix = fct.createEmptyAdjacencyMatrix(updatedData)
+                    updatedMatrix = fct.updatedEmptyAdjacencyMatrix(edgeList, emptyMatrix)
+                    fct.displayEdgeList(updatedMatrix)
+
+                    print("With a good display eat this chicken babbbby : \n")
+                    fct.displayAdjacencyMatrix(updatedMatrix, updatedData)
+
+                    print("\nBefore pretty table : ")
+                    fct.displayEdgeList(updatedMatrix)
+
+
+
+                    print(f"###################################################################################")
+                   
+            except NameError:
                 print("The input must be between 1 and 14. Please enter again !")
 
         #Catch the error
-        except:
+        except NameError:
             print("An error occured")
     
     #Set the boolean to false if the user don't want to continue
