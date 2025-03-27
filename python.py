@@ -74,20 +74,22 @@ while (condition):
                     fct.displayEdgeList(fct.edgeList(updatedData))
 
                     #Updating the empty matrix with correct edges
-                    #fct.displayAdjacencyMatrix(fct.updatedEmptyAdjacencyMatrix(fct.edgeList(updatedData), emptyMatrix), updatedData)
-                    print("\n Checking that the value matrix is well updated ")
-
+                    print("\nChecking that the value matrix is well updated\n")
                     emptyMatrix = fct.createEmptyAdjacencyMatrix(updatedData)
                     updatedMatrix = fct.updatedEmptyAdjacencyMatrix(edgeList, emptyMatrix)
                     fct.displayEdgeList(updatedMatrix)
 
-                    print("With a good display eat this chicken babbbby : \n")
+                    #Displaying the adjacency matrix in value matrix
+                    print("\nValue matrix display : \n")
                     fct.displayAdjacencyMatrix(updatedMatrix, updatedData)
 
-                    print("\nBefore pretty table : ")
+                    #Before pretty table
+                    print("\nBefore pretty table :\n")
                     fct.displayEdgeList(updatedMatrix)
 
-
+                    #After pretty table
+                    print("\nAfter pretty table magic :\n")
+                    fct.displayWithPrettyTable(updatedMatrix, updatedData)
 
                     print(f"###################################################################################")
                    
