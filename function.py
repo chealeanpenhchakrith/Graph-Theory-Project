@@ -67,20 +67,36 @@ def createEmptyAdjacencyMatrix(updatedList):
         temporaryRow = []
     return emptyAdjacencyMatrix
 
-#Define a function that displays the adjacency matrix in a value form 
-def displayAdjacencyMatrix(matrix):
+def displayEmptyAdjacencyMatrix(matrix):
     matrixLength = len(matrix)
-    verticeTop = verticeIndex(matrix)
-    print("  ", *verticeTop)
     for i in range (matrixLength):
-        print(i, matrix[i])
+        print(matrix[i])
+
+#Define a function that displays the adjacency matrix in a value form 
+def displayAdjacencyMatrix(matrix, updatedList):
+    matrixLength = len(matrix)
+    verticeTop = verticeIndex(updatedList)
+    print('    ', end = '')
+    for j in range (len(verticeTop)):
+        if (j >= 9 and j <= len(verticeTop)):
+            print(verticeTop[j], '', end='')
+        else:
+            print(verticeTop[j], '', end=' ')
+    print("")
+    for i in range (matrixLength):
+        if (i >= 0 and i <= 9):
+            print(i, "", matrix[i])
+        else:
+            print(i, matrix[i])
 
 #Define a function that return the list of vertex
 def verticeIndex(updatedList):
-    verticeCounter = len(updatedList) + 1
+    verticeCounter = len(updatedList)
     verticeList = []
     for i in range (verticeCounter):
         verticeList.append(i)
+        if (i == verticeCounter-1):
+            verticeList.append(i+1)
     return verticeList
 
 #Define a function that displays the adjacency matrix with pretty table

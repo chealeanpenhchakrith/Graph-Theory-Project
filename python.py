@@ -17,7 +17,6 @@ while (condition):
                 
             #Storing user input
             tableInput = input("Which table do you want to work with ? Please enter a number between 1 and 14 : ")
-            print("The value entered must be between 1 and 14. Please enter again !")
 
             print("\n")
 
@@ -29,6 +28,8 @@ while (condition):
                     #Reading the file and store it in memory
                     data = fct.storeDataInMemory(f)
                     print("The data have been succesfully stored in memory !\n")
+                    print(f"#############################  Table : {tableInput}  ################################")
+
 
                     #Updating the data file by filling rows without predecessor
                     updatedData = fct.fillsPredecessor(data)
@@ -53,15 +54,21 @@ while (condition):
                     print("\n")
 
                     #Creating the empty adjacency matrix
-                    print("The empty adjacency matrix is ", fct.createEmptyAdjacencyMatrix(updatedData))
+                    emptyMatrix = fct.createEmptyAdjacencyMatrix(updatedData)
+                    print("The empty adjacency matrix without label looks like this :  \n")
+                    fct.displayEmptyAdjacencyMatrix(emptyMatrix)
+                    print("\n")
 
                     #Displaying the adjacency matrix
-                    print("The adjacency matrix looks like : ")
-                    fct.displayAdjacencyMatrix(fct.createEmptyAdjacencyMatrix(updatedData))
+                    print("The adjacency with labels looks like this :  \n")
+                    fct.displayAdjacencyMatrix(fct.createEmptyAdjacencyMatrix(updatedData), updatedData)
+                    print("\n")
 
                     #Displaying the list of vertices
-                    print("The list of vertices is : ", fct.verticeIndex(updatedData))
-                
+                    print("The list of vertices is : ", fct.verticeIndex(updatedData), "\n")
+
+                    print(f"###################################################################################")
+                   
             except NameError:
                 print("The input must be between 1 and 14. Please enter again !")
 
