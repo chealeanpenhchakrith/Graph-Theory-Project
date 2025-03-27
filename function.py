@@ -1,3 +1,5 @@
+from prettytable import PrettyTable
+
 #Define a function to read and store the constraint table in memory
 def storeDataInMemory(constraintTableFile):
     data = constraintTableFile.readlines()
@@ -73,9 +75,27 @@ def displayAdjacencyMatrix(matrix):
     for i in range (matrixLength):
         print(i, matrix[i])
 
+#Define a function that return the list of vertex
 def verticeIndex(updatedList):
-    verticeCounter = len(updatedList)
+    verticeCounter = len(updatedList) + 1
     verticeList = []
-    for i in range (verticeCounter + 1):
+    for i in range (verticeCounter):
         verticeList.append(i)
     return verticeList
+
+#Define a function that displays the adjacency matrix with pretty table
+#def displayAdjacencyMatrixV2(updatedList):
+
+
+
+# value = 1
+# table = PrettyTable()
+# table.add_column(".", [0, 1, 2, 3])
+# table.add_column("0", [0, value, 0, 0])
+# table.add_column("1", [0, 0, 0, 0])
+# table.add_column("2", [0, 0, 0, 0])
+# table.add_column("3", [0, 0, 0, 0])
+
+# print(table)
+
+#testing a pull request
