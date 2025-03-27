@@ -68,12 +68,26 @@ while (condition):
                     print("The list of vertices is : ", fct.verticeIndex(updatedData), "\n")
 
                     #Displaying the list of initialVertex,destinationVertex,edge
-                    print("The list of vertex, destination (vertex, edge, duration is) ", fct.edgeList(updatedData))
-                    print("The edge list looks like this : (vertex -> vertex = duration)")
+                    print("The list of vertex, destination (vertex, edge, duration) is : \n", fct.edgeList(updatedData))
+                    edgeList = fct.edgeList(updatedData)
+                    print("\nThe edge list looks like this : (vertex -> vertex = duration)\n")
                     fct.displayEdgeList(fct.edgeList(updatedData))
 
                     #Updating the empty matrix with correct edges
-                    #fct.updatedEmptyAdjacencyMatrix(updatedData, emptyMatrix)
+                    #fct.displayAdjacencyMatrix(fct.updatedEmptyAdjacencyMatrix(fct.edgeList(updatedData), emptyMatrix), updatedData)
+                    print("\n Checking that the value matrix is well updated ")
+
+                    emptyMatrix = fct.createEmptyAdjacencyMatrix(updatedData)
+                    updatedMatrix = fct.updatedEmptyAdjacencyMatrix(edgeList, emptyMatrix)
+                    fct.displayEdgeList(updatedMatrix)
+
+                    print("With a good display eat this chicken babbbby : \n")
+                    fct.displayAdjacencyMatrix(updatedMatrix, updatedData)
+
+                    print("\nBefore pretty table : ")
+                    fct.displayEdgeList(updatedMatrix)
+
+
 
                     print(f"###################################################################################")
                    

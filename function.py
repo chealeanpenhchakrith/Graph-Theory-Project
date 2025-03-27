@@ -140,14 +140,21 @@ def detectVerticeEdge(updatedList, lookingVertice):
     verticeEdge = updatedList[lookingVertice-1][1]
     return verticeEdge
 
-# #Define a function that displays the adjacency matrix with correct edges
-# def updatedEmptyAdjacencyMatrix(updatedList, matrix):
-#     matrixLength = len(matrix)
-#     updatedListLength = len(updatedList)
-#     #print(matrixLength, end = ' ')
-#     #print(updatedListLength)
-#     for row in range (matrixLength):
-#         for column in range(matrixLength):
+#Define a function that displays the adjacency matrix with correct edges
+def updatedEmptyAdjacencyMatrix(edgeList, matrix):
+    for i in range (len(edgeList)):
+        for j in range (len(edgeList[i])):
+            initialVertex = int(edgeList[i][j])
+            targetVertex = int(edgeList[i][1])
+            duration = int(edgeList[i][2])
+            matrix[initialVertex][targetVertex] = duration
+            break
+    return matrix
+
+# def displayWithPrettyTable(updatedMatrix):
+#     matrixLength = len(updatedMatrix)
+
+
             
 #     # for i in range (matrixLength)
     
@@ -159,4 +166,4 @@ def detectVerticeEdge(updatedList, lookingVertice):
 # table.add_column("2", [0, 0, 0, 0])
 # table.add_column("3", [0, 0, 0, 0])
 
-# print(table)
+#print(table)
