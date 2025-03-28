@@ -60,7 +60,7 @@ def graphInFormOfTriplets(updatedList):
 def createEmptyAdjacencyMatrix(updatedList):
     emptyAdjacencyMatrix = []
     temporaryRow = []
-    verticeCounter = len(updatedList) + 1
+    verticeCounter = len(updatedList) + 2
     for row in range (verticeCounter):
         for column in range (verticeCounter):
             temporaryRow.append(0)
@@ -92,7 +92,7 @@ def displayAdjacencyMatrix(matrix, updatedList):
 
 #Define a function that return the list of vertex
 def verticeIndex(updatedList):
-    verticeCounter = len(updatedList)
+    verticeCounter = len(updatedList) + 1
     verticeList = []
     for i in range (verticeCounter):
         verticeList.append(i)
