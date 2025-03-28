@@ -41,7 +41,7 @@ while (condition):
                     print("\n")
 
                     #Computing the number of vertices
-                    print("The number of vertices is : ", fct.verticeCounter(data))
+                    print("The number of vertices is : ", fct.verticeCounter(data)+2)
                     print("\n")
 
                     #Computing the number of edges
@@ -91,7 +91,7 @@ while (condition):
                     print("\nAfter pretty table magic :\n")
                     fct.displayWithPrettyTable(updatedMatrix, updatedData)
 
-                    print(f"###################################################################################")
+                    print("\n###################################################################################")
                    
             except NameError:
                 print("The input must be between 1 and 14. Please enter again !")
