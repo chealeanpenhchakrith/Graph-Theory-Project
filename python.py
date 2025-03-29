@@ -1,109 +1,104 @@
-#import the function.py file
+# import the function.py file
 import function as fct
 
-#Set a boolean which is True
+# Set a boolean which is True
 condition = True
 while (condition):
 
-    #Ask for user input
+    # Ask for user input
     userInput = input("Do you want to test a constraint table ? Answer by y or n : ")
     print("\n")
 
-    #User answer yes
+    # User answer yes
     if (userInput == 'y'):
 
-        #Try-catch clause to intercept any errors
+        # Try-catch clause to intercept any errors
         try:
-                
-            #Storing user input
+
+            # Storing user input
             tableInput = input("Which table do you want to work with ? Please enter a number between 1 and 14 : ")
 
             print("\n")
 
             try:
-                
-                #Open and close the file after the block is executed
-                with open(f"./Test Constraint Tables Mar 22 2025/table {tableInput}.txt") as f:
-                    
-                    #Reading the file and store it in memory
+
+                # Open and close the file after the block is executed
+                with open(f"./Test constraint tables/table {tableInput}.txt") as f:
+
+                    # Reading the file and store it in memory
                     data = fct.storeDataInMemory(f)
                     print("The data have been succesfully stored in memory !\n")
                     print(f"#############################  Table : {tableInput}  ################################")
 
-
-                    #Updating the data file by filling rows without predecessor
+                    # Updating the data file by filling rows without predecessor
                     updatedData = fct.fillsPredecessor(data)
                     print("\n")
 
-                    #Displaying the updated data file
-                    print("The updated file looks like this \n")
+                    # Displaying the updated data file
+                    print("The chosen table looks like this \n")
                     fct.displayUpdatedDataFile(updatedData)
                     print("\n")
 
-                    #Computing the number of vertices
-                    print("The number of vertices is : ", fct.verticeCounter(data)+2)
+                    # Computing the number of vertices
+                    print("The number of vertices is : ", fct.verticeCounter(data) + 2, "(after adding 2 fictional tasks 0 and", fct.verticeCounter(data) + 1,")")
                     print("\n")
 
-                    #Computing the number of edges
+                    # Computing the number of edges
                     print("The number of edges is : ", fct.edgeCounter(updatedData))
                     print("\n")
 
-                    #Displaying the graph in form of a triplets
+                    # Displaying the graph in form of a triplets
                     print("The graph in form of triplets looks like this :\n")
                     fct.graphInFormOfTriplets(updatedData)
                     print("\n")
 
-                    #Creating the empty adjacency matrix
-                    emptyMatrix = fct.createEmptyAdjacencyMatrix(updatedData)
-                    print("The empty adjacency matrix without label looks like this :  \n")
-                    fct.displayEmptyAdjacencyMatrix(emptyMatrix)
-                    print("\n")
-
-                    #Displaying the adjacency matrix
-                    print("The adjacency with labels looks like this :  \n")
-                    fct.displayAdjacencyMatrix(fct.createEmptyAdjacencyMatrix(updatedData), updatedData)
-                    print("\n")
-
-                    #Displaying the list of vertices
+                    # Displaying the list of vertices
                     print("The list of vertices is : ", fct.verticeIndex(updatedData), "\n")
 
-                    #Displaying the list of initialVertex,destinationVertex,edge
-                    print("The list of vertex, destination (vertex, edge, duration) is : \n", fct.edgeList(updatedData))
+                    # Displaying the list of initialVertex,destinationVertex,edge
                     edgeList = fct.edgeList(updatedData)
                     print("\nThe edge list looks like this : (vertex -> vertex = duration)\n")
                     fct.displayEdgeList(fct.edgeList(updatedData))
 
-                    #Updating the empty matrix with correct edges
-                    print("\nChecking that the value matrix is well updated\n")
+                    # Displaying the adjacency matrix in value matrix
+                    print("\nHere is the value matrix, before pretty table : \n")
                     emptyMatrix = fct.createEmptyAdjacencyMatrix(updatedData)
                     updatedMatrix = fct.updatedEmptyAdjacencyMatrix(edgeList, emptyMatrix)
-                    fct.displayEdgeList(updatedMatrix)
-
-                    #Displaying the adjacency matrix in value matrix
-                    print("\nValue matrix display : \n")
                     fct.displayAdjacencyMatrix(updatedMatrix, updatedData)
 
-                    #Before pretty table
-                    print("\nBefore pretty table :\n")
-                    fct.displayEdgeList(updatedMatrix)
-
-                    #After pretty table
-                    print("\nAfter pretty table magic :\n")
+                    # After pretty table
+                    print("\nWith pretty table magic :\n")
                     fct.displayWithPrettyTable(updatedMatrix, updatedData)
 
-                    print("\n###################################################################################")
-                   
+                    # Check for cycle
+                    if fct.has_cycle(updatedMatrix):
+                        print("\n❌ The graph contains a cycle. It is not a valid scheduling graph.\n")
+                    else:
+                        print("\n✅ No cycles detected. Proceeding...\n")
+
+                    # Check for negative edges
+                    if fct.has_negative_edges(updatedMatrix):
+                        print("❌ The graph contains negative edge(s). This is not allowed in scheduling.\n")
+                    else:
+                        print("✅ No negative edge weights found.\n")
+
+                        # Compute ranks only if both conditions are met
+                        ranks = fct.computeRanks(updatedMatrix)
+                        print("\n📊 Ranks of the vertices:")
+                        for i, rank in enumerate(ranks):
+                            print(f"Task {i}: Rank {rank}")
+                print("\n###################################################################################")
             except NameError:
                 print("The input must be between 1 and 14. Please enter again !")
 
-        #Catch the error
+        # Catch the error
         except NameError:
             print("An error occured")
-    
-    #Set the boolean to false if the user don't want to continue
+
+    # Set the boolean to false if the user don't want to continue
     elif (userInput == 'n'):
         condition = False
 
-    #Ask the user to enter again if incorrect input
+    # Ask the user to enter again if incorrect input
     else:
         print("The value entered is incorrect\n")
