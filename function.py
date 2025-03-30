@@ -71,7 +71,7 @@ def createEmptyAdjacencyMatrix(updatedList):
     verticeCounter = len(updatedList) + 2
     for row in range (verticeCounter):
         for column in range (verticeCounter):
-            temporaryRow.append(0)
+            temporaryRow.append(".")
         emptyAdjacencyMatrix.append(temporaryRow)
         temporaryRow = []
     return emptyAdjacencyMatrix
