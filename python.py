@@ -1,4 +1,4 @@
-# import the Steps file
+# import Steps file
 import Steps as fct
 
 # Set a boolean which is True
@@ -6,7 +6,7 @@ condition = True
 while (condition):
 
     # Ask for user input
-    userInput = input("Do you want to test a constraint table ? Answer by y or n : ")
+    userInput = input("Do you want to test a constraint table? Answer by y or n : ")
     print("\n")
 
     # User answer yes
@@ -16,7 +16,7 @@ while (condition):
         try:
 
             # Storing user input
-            tableInput = input("Which table do you want to work with ? Please enter a number between 1 and 14 : ")
+            tableInput = input("Which table do you want to work with? Please enter a number between 1 and 14 : ")
 
             print("\n")
 
@@ -27,7 +27,7 @@ while (condition):
 
                     # Reading the file and store it in memory
                     data = fct.storeDataInMemory(f)
-                    print("The data have been succesfully stored in memory !\n")
+                    print("The data have been successfully stored in memory !\n")
                     print(f"#############################  Table : {tableInput}  ################################")
 
                     # Updating the data file by filling rows without predecessor
@@ -47,7 +47,7 @@ while (condition):
                     print("The number of edges is : ", fct.edgeCounter(updatedData))
                     print("\n")
 
-                    # Displaying the graph in form of a triplets
+                    # Displaying the graph in form of triplets
                     print("The graph in form of triplets looks like this :\n")
                     fct.graphInFormOfTriplets(updatedData)
                     print("\n")
@@ -55,7 +55,7 @@ while (condition):
                     # Displaying the list of vertices
                     print("The list of vertices is : ", fct.verticeIndex(updatedData), "\n")
 
-                    # Displaying the list of initialVertex,destinationVertex,edge
+                    # Displaying the list of initialVertex, destinationVertex, edge
                     edgeList = fct.edgeList(updatedData)
                     print("\nThe edge list looks like this : (vertex -> vertex = duration)\n")
                     fct.displayEdgeList(fct.edgeList(updatedData))
@@ -87,15 +87,35 @@ while (condition):
                         print("\n📊 Ranks of the vertices:")
                         for i, rank in enumerate(ranks):
                             print(f"Task {i}: Rank {rank}")
+
+                        #######STEP 5#######
+                        # Now that we have the graph and sorted_order, we can compute the schedules and critical path
+                        schedule_data = fct.compute_schedules(updatedMatrix, sorted_order)
+
+                        # Display the earliest start, latest start, and floats
+                        print("\n📅 Earliest Start Dates:")
+                        for node, es in schedule_data["earliest_start"].items():
+                            print(f"Task {node}: {es}")
+                        print("\n📅 Latest Start Dates:")
+                        for node, ls in schedule_data["latest_start"].items():
+                            print(f"Task {node}: {ls}")
+                        print("\n📅 Floats:")
+                        for node, float_value in schedule_data["floats"].items():
+                            print(f"Task {node}: {float_value}")
+
+                        #######STEP 6######
+                        # Display the critical path
+                        fct.display_critical_path(schedule_data["critical_path"])
+
                 print("\n###################################################################################")
             except NameError:
-                print("The input must be between 1 and 14. Please enter again !")
+                print("The input must be between 1 and 14. Please enter again!")
 
         # Catch the error
         except NameError:
-            print("An error occured")
+            print("An error occurred")
 
-    # Set the boolean to false if the user don't want to continue
+    # Set the boolean to false if the user doesn't want to continue
     elif (userInput == 'n'):
         condition = False
 
