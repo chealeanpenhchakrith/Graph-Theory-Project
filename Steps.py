@@ -3,19 +3,22 @@ from prettytable.colortable import ColorTable, Themes
 from collections import deque
 
 # ------------------------------
-# STEP 1: Basic Functions
+# STEP 1 AND STEP 2: Basic Functions
 # ------------------------------
 
+# Define a function that stores data in memory by reading all lines from the file
 def storeDataInMemory(constraintTableFile):
     data = constraintTableFile.readlines()
     return data
 
+# Define a function that counts the number of vertices (lines) in the data
 def verticeCounter(dataStored):
     line_count = 0
     for line in dataStored:
         line_count += 1
     return line_count
 
+# Define a function that fills in missing predecessor data
 def fillsPredecessor(dataStored):
     rowList = []
     for line in dataStored:
@@ -27,10 +30,12 @@ def fillsPredecessor(dataStored):
             rowList.append(column)
     return rowList
 
+# Define a function that displays the updated data file by printing each row
 def displayUpdatedDataFile(updatedList):
     for row in updatedList:
         print(row)
 
+# Define a function that computes the number of edges from the data
 def edgeCounter(dataStored):
     edgeCounter = 0
     for i in range(len(dataStored)):
@@ -41,6 +46,7 @@ def edgeCounter(dataStored):
             j += 1
     return edgeCounter
 
+# Define a function that displays the graph as triplets 
 def graphInFormOfTriplets(updatedList):
     for i in range(len(updatedList)):
         for j in range(len(updatedList[i])):
@@ -49,10 +55,12 @@ def graphInFormOfTriplets(updatedList):
             elif j >= 2 and updatedList[i][j] != '0':
                 print(f"{updatedList[i][j]} -> {updatedList[i][0]} = {detectVerticeEdge(updatedList, int(updatedList[i][j]))}")
 
+# Define a function that displays the graph as triplets 
 def graphInFormOfTripletsV2(edgeList):
     for edge in edgeList:
         print(f"{edge[0]} -> {edge[1]} = {edge[2]}")
 
+# Define a function that creates an empty adjacency matrix
 def createEmptyAdjacencyMatrix(updatedList):
     emptyAdjacencyMatrix = []
     num = len(updatedList) + 2  # Add two fictional tasks: start (0) and finish (n-1)
@@ -60,10 +68,12 @@ def createEmptyAdjacencyMatrix(updatedList):
         emptyAdjacencyMatrix.append(["."] * num)
     return emptyAdjacencyMatrix
 
+# Define a function that displays an empty adjacency matrix row by row
 def displayEmptyAdjacencyMatrix(matrix):
     for row in matrix:
         print(row)
 
+# Define a function that displays the adjacency matrix with a header row
 def displayAdjacencyMatrix(matrix, updatedList):
     verticeTop = verticeIndex(updatedList)
     print('    ', end='')
@@ -77,12 +87,14 @@ def displayAdjacencyMatrix(matrix, updatedList):
             print(f"{display_val:>3}", end=' ')
         print()
 
+# Define a function that returns a list of vertex indices
 def verticeIndex(updatedList):
     num = len(updatedList) + 1
     verticeList = list(range(num))
     verticeList.append(num)  # add the finish vertex
     return verticeList
 
+# Define a function that builds and returns an edge list from the updated data
 def edgeList(updatedList, verticeList):
     edgeList = []
     for i in range(len(updatedList)):
@@ -98,23 +110,26 @@ def edgeList(updatedList, verticeList):
                 edgeList.append(temp)
     sourceVertices = {int(edge[0]) for edge in edgeList}
     sinkVertices = [str(v) for v in verticeList if v not in sourceVertices]
-    print("Here is the sink vertice list", sinkVertices)
+    #print("Here is the sink vertice list", sinkVertices)
     fictionalEndVertice = sinkVertices[-1]
     sinkVertices.pop()
     for s in sinkVertices:
         temp = [s, fictionalEndVertice, str(updatedList[int(s)-1][1])]
         edgeList.append(temp)
-    print("The last part of the edge list is :", temp)
-    print("The new edge list is this :", edgeList)
+    #print("The last part of the edge list is :", temp)
+    #print("The new edge list is this :", edgeList)
     return edgeList
 
+# Define a function that displays the edge list by printing each edge
 def displayEdgeList(edgeList):
     for edge in edgeList:
         print(edge)
 
+# Define a function that returns the duration for a given vertex
 def detectVerticeEdge(updatedList, lookingVertice):
     return updatedList[lookingVertice-1][1]
 
+# Define a function that updates the empty adjacency matrix with edge durations
 def updatedEmptyAdjacencyMatrix(edgeList, matrix):
     for edge in edgeList:
         initialVertex = int(edge[0])
@@ -123,6 +138,7 @@ def updatedEmptyAdjacencyMatrix(edgeList, matrix):
         matrix[initialVertex][targetVertex] = duration
     return matrix
 
+#Define a function that displays the adjacency matrix using PrettyTable for a nicer format
 def displayWithPrettyTable(updatedMatrix, updatedData):
     from prettytable import PrettyTable
     from prettytable.colortable import ColorTable, Themes
@@ -141,6 +157,7 @@ def displayWithPrettyTable(updatedMatrix, updatedData):
 # STEP 3: Cycle & Negative Edge Check
 # ------------------------------
 
+# Define a function that checks for cycles in the graph using Kahn's Algorithm
 def has_cycle(adj_matrix):
     n = len(adj_matrix)
     in_degree = [0] * n
@@ -160,6 +177,7 @@ def has_cycle(adj_matrix):
                     queue.append(neighbor)
     return visited_count != n
 
+# Define a function that checks if there are any negative edge weights in the graph
 def has_negative_edges(adj_matrix):
     for row in adj_matrix:
         for val in row:
@@ -173,6 +191,7 @@ def has_negative_edges(adj_matrix):
 # STEP 4: Compute Ranks (Longest Path in DAG)
 # ------------------------------
 
+# Define a function that computes the rank of each vertex
 def computeRanks(adj_matrix):
     n = len(adj_matrix)
     in_degree = [0] * n
@@ -202,6 +221,7 @@ def computeRanks(adj_matrix):
 # Additional Functions for Scheduling
 # ------------------------------
 
+# Define a function that computes a topologically sorted order of vertices
 def compute_sorted_order(adj_matrix):
     n = len(adj_matrix)
     in_degree = [0] * n
@@ -221,34 +241,21 @@ def compute_sorted_order(adj_matrix):
                     queue.append(v)
     return sorted_order
 
+# Define a function that computes scheduling data (earliest start, latest start, floats, critical path)
 def compute_schedules(adj_matrix, sorted_order):
-    """
-    Computes scheduling data based on the weighted graph.
-    
-    Forward pass (for earliest start times):
-      For each vertex u in sorted order,
-      earliest_start[v] = max(earliest_start[v], earliest_start[u] + duration(u,v))
-    
-    Backward pass (for latest start times):
-      Set latest_start[finish] = earliest_start[finish] where finish = n-1.
-      Then for each vertex u in reverse topological order,
-      latest_start[u] = min(latest_start[u], latest_start[v] - duration(u,v)) for all edges u->v.
-    
-    Floats are computed as: float = latest_start - earliest_start.
-    
-    The function returns a dictionary with keys:
-      - "earliest_start"
-      - "latest_start"
-      - "floats"
-      - "critical_path" (nodes with zero float, in topological order)
-    """
     n = len(adj_matrix)
     # Forward pass: compute earliest start times
     earliest_start = [0] * n
     for u in sorted_order:
         for v in range(n):
+            # Get weight from u to v (if any)
+            weight = None
             if isinstance(adj_matrix[u][v], int):
-                candidate = earliest_start[u] + adj_matrix[u][v]
+                weight = adj_matrix[u][v]
+            elif isinstance(adj_matrix[u][v], str) and adj_matrix[u][v].isdigit():
+                weight = int(adj_matrix[u][v])
+            if weight is not None:
+                candidate = earliest_start[u] + weight
                 if candidate > earliest_start[v]:
                     earliest_start[v] = candidate
 
@@ -258,8 +265,13 @@ def compute_schedules(adj_matrix, sorted_order):
     latest_start[finish] = earliest_start[finish]
     for u in reversed(sorted_order):
         for v in range(n):
+            weight = None
             if isinstance(adj_matrix[u][v], int):
-                candidate = latest_start[v] - adj_matrix[u][v]
+                weight = adj_matrix[u][v]
+            elif isinstance(adj_matrix[u][v], str) and adj_matrix[u][v].isdigit():
+                weight = int(adj_matrix[u][v])
+            if weight is not None:
+                candidate = latest_start[v] - weight
                 if candidate < latest_start[u]:
                     latest_start[u] = candidate
     # For any node not updated, set LS = ES
@@ -267,7 +279,7 @@ def compute_schedules(adj_matrix, sorted_order):
         if latest_start[i] == float('inf'):
             latest_start[i] = earliest_start[i]
     floats = [latest_start[i] - earliest_start[i] for i in range(n)]
-    # Determine critical path: nodes with zero float in topological order
+    # Determine critical path: vertices in sorted_order with zero float
     critical_path = [i for i in sorted_order if floats[i] == 0]
     
     return {
