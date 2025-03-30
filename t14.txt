@@ -1,0 +1,66 @@
+#############################  Table : 14  ################################
+
+The number of vertices is :  6 (after adding 2 fictional tasks 0 and 5 )
+
+The number of edges is :  6
+
+New display in form of triplets:
+0 -> 1 = 0
+0 -> 2 = 0
+1 -> 3 = 3
+2 -> 3 = 2
+4 -> 3 = 1
+2 -> 4 = 2
+3 -> 5 = 4
+
+With pretty table magic:
++---+---+---+---+---+---+---+
+| . | 0 | 1 | 2 | 3 | 4 | 5 |
++---+---+---+---+---+---+---+
+| 0 | . | 0 | 0 | . | . | . |
+| 1 | . | . | . | 3 | . | . |
+| 2 | . | . | . | 2 | 2 | . |
+| 3 | . | . | . | . | . | 4 |
+| 4 | . | . | . | 1 | . | . |
+| 5 | . | . | . | . | . | . |
++---+---+---+---+---+---+---+
+
+✅ No cycles detected. Proceeding...
+
+✅ No negative edge weights found.
+
+
+📊 Ranks of the vertices:
+Task 0: Rank 0
+Task 1: Rank 1
+Task 2: Rank 1
+Task 3: Rank 3
+Task 4: Rank 2
+Task 5: Rank 4
+
+📅 Earliest Start Dates:
+Task 0: 0
+Task 1: 0
+Task 2: 0
+Task 3: 3
+Task 4: 2
+Task 5: 7
+
+📅 Latest Start Dates:
+Task 0: 0
+Task 1: 0
+Task 2: 0
+Task 3: 3
+Task 4: 2
+Task 5: 7
+
+📅 Floats:
+Task 0: 0
+Task 1: 0
+Task 2: 0
+Task 3: 0
+Task 4: 0
+Task 5: 0
+Critical Path: 0 -> 1 -> 2 -> 4 -> 3 -> 5
+
+###################################################################################
