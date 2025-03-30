@@ -97,7 +97,7 @@ def displayAdjacencyMatrix(matrix, updatedList):
         print(f"{i:<3}", end=' ')
         for j in range(len(matrix[i])):
             value = matrix[i][j]
-            display_val = "-" if value == 0 else str(value)
+            display_val = "0" if value == 0 else str(value)
             print(f"{display_val:>3}", end=' ')
         print()
 
@@ -199,7 +199,7 @@ def displayWithPrettyTable(updatedMatrix, updatedData):
         # Replace 0s with "-" for display purposes
         row = [str(i)]  # First column: row label
         for val in updatedMatrix[i]:
-            row.append("-" if val == 0 else str(val))
+            row.append("0" if val == 0 else str(val))
         table.add_row(row)
 
     print(table)
