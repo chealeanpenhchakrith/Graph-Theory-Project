@@ -211,10 +211,10 @@ def has_cycle(adj_matrix):
     n = len(adj_matrix)
     in_degree = [0] * n
 
-    # Calculate in-degrees
+    # Calculate in-degrees: Only count valid edges (cells that are int and nonzero)
     for i in range(n):
         for j in range(n):
-            if adj_matrix[i][j] != 0:
+            if isinstance(adj_matrix[i][j], int) and adj_matrix[i][j] != 0:
                 in_degree[j] += 1
 
     # Collect all nodes with in-degree 0
@@ -225,13 +225,14 @@ def has_cycle(adj_matrix):
         node = queue.popleft()
         visited_count += 1
         for neighbor in range(n):
-            if adj_matrix[node][neighbor] != 0:
+            if isinstance(adj_matrix[node][neighbor], int) and adj_matrix[node][neighbor] != 0:
                 in_degree[neighbor] -= 1
                 if in_degree[neighbor] == 0:
                     queue.append(neighbor)
 
     # If not all nodes were visited, there is a cycle
     return visited_count != n
+
 
 
 # Check if the graph contains any negative edge weights
