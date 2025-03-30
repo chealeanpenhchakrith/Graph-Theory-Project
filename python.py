@@ -82,17 +82,17 @@ while (condition):
                     else:
                         print("\n✅ No cycles detected. Proceeding...\n")
 
-                    #Check for negative edges
-                    if fct.has_negative_edges(updatedMatrix):
-                        print("❌ The graph contains negative edge(s). This is not allowed in scheduling.\n")
-                    else:
-                        print("✅ No negative edge weights found.\n")
+                        #Check for negative edges
+                        if fct.has_negative_edges(updatedMatrix):
+                            print("❌ The graph contains negative edge(s). This is not allowed in scheduling.\n")
+                        else:
+                            print("✅ No negative edge weights found.\n")
 
-                        # Compute ranks only if both conditions are met
-                        ranks = fct.computeRanks(updatedMatrix)
-                        print("\n📊 Ranks of the vertices:")
-                        for i, rank in enumerate(ranks):
-                            print(f"Task {i}: Rank {rank}")
+                            # Compute ranks only if both conditions are met
+                            ranks = fct.computeRanks(updatedMatrix)
+                            print("\n📊 Ranks of the vertices:")
+                            for i, rank in enumerate(ranks):
+                                print(f"Task {i}: Rank {rank}")
                 print("\n###################################################################################")
             except NameError:
                 print("The input must be between 1 and 14. Please enter again !")
