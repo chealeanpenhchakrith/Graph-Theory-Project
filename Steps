@@ -1,0 +1,216 @@
+from prettytable import PrettyTable
+from prettytable.colortable import ColorTable, Themes
+from collections import deque
+
+#Define a function to read and store the constraint table in memory
+def storeDataInMemory(constraintTableFile):
+    data = constraintTableFile.readlines()
+    return data
+
+#Define a function that computes the number of vertices
+def verticeCounter(dataStored):
+    line_count = 0
+    for line in dataStored:
+        line_count += 1
+    verticeCounter = line_count
+    return verticeCounter
+
+#Define a function that fills with 0 rows that doesn't contain predecessor
+def fillsPredecessor(dataStored):
+    rowList = []
+    for line in dataStored:
+        column = line.split()
+        if (len(column) == 2):
+            column.append('0')
+            rowList.append(column)
+        else:
+            rowList.append(column)
+    return rowList
+
+#Define a function that displays the updated data file
+def displayUpdatedDataFile(updatedList):
+    listLength = len(updatedList)
+    for i in range(listLength):
+        print(updatedList[i])
+
+#Define a function that computes the number of edges
+def edgeCounter(dataStored):
+    dataStoredLength = len(dataStored)
+    edgeCounter = 0
+    for i in range(dataStoredLength):
+        column = len(dataStored[i])
+        j = 2
+        while (j != column):
+            edgeCounter += 1
+            j += 1
+    return edgeCounter
+
+#Define a function that displays the graph as a form of triplets
+def graphInFormOfTriplets(updatedList):
+    iteration1 = len(updatedList)
+    for i in range(iteration1):
+        iteration2 = len(updatedList[i])
+        for j in range(iteration2):
+            if (j == 2 and j < iteration2 and updatedList[i][j] == '0'):
+                print(f"{updatedList[i][j]} -> {updatedList[i][0]} = 0")
+            else:
+                if (j >= 2 and j < iteration2 and updatedList[i][j] != '0'):
+                    print(f"{updatedList[i][j]} -> {updatedList[i][0]} = {detectVerticeEdge(updatedList, int(updatedList[i][j]))}")
+
+#Define a function that represents the graph in a value matrix form
+def createEmptyAdjacencyMatrix(updatedList):
+    emptyAdjacencyMatrix = []
+    temporaryRow = []
+    verticeCounter = len(updatedList) + 2
+    for row in range(verticeCounter):
+        for column in range(verticeCounter):
+            temporaryRow.append(0)
+        emptyAdjacencyMatrix.append(temporaryRow)
+        temporaryRow = []
+    return emptyAdjacencyMatrix
+
+def displayEmptyAdjacencyMatrix(matrix):
+    matrixLength = len(matrix)
+    for i in range(matrixLength):
+        print(matrix[i])
+
+#Define a function that displays the adjacency matrix in a value form
+def displayAdjacencyMatrix(matrix, updatedList):
+    matrixLength = len(matrix)
+    verticeTop = verticeIndex(updatedList)
+
+    # Print header
+    print('    ', end='')
+    for j in verticeTop:
+        print(f"{j:>3}", end=' ')
+    print()
+
+    # Print each row
+    for i in range(matrixLength):
+        print(f"{i:<3}", end=' ')
+        for j in range(len(matrix[i])):
+            value = matrix[i][j]
+            display_val = "-" if value == 0 else str(value)
+            print(f"{display_val:>3}", end=' ')
+        print()
+
+#Define a function that return the list of vertex
+def verticeIndex(updatedList):
+    verticeCounter = len(updatedList) + 1
+    verticeList = []
+    for i in range(verticeCounter):
+        verticeList.append(i)
+        if (i == verticeCounter-1):
+            verticeList.append(i+1)
+    return verticeList
+
+#Define a function that return a list of vertices, edges, duration
+def edgeList(updatedList):
+    edgeList = []
+    iteration1 = len(updatedList)
+    for i in range(iteration1):
+        iteration2 = len(updatedList[i])
+        for j in range(iteration2):
+            if (j == 2 and j < iteration2 and updatedList[i][j] == '0'):
+                tempEdgeList = []
+                tempEdgeList.append(updatedList[i][j])
+                tempEdgeList.append(updatedList[i][0])
+                tempEdgeList.append(0)
+                edgeList.append(tempEdgeList)
+            else:
+                if (j == 2 and j < iteration2 and updatedList[i][j] != '0'):
+                    tempEdgeList = []
+                    tempEdgeList.append(updatedList[i][j])
+                    tempEdgeList.append(updatedList[i][0])
+                    tempEdgeList.append(detectVerticeEdge(updatedList, int(updatedList[i][j])))
+                    edgeList.append(tempEdgeList)
+
+                else:
+                    if (j > 2 and j < iteration2 and updatedList[i][j] != '0'):
+                        tempEdgeList = []
+                        tempEdgeList.append(updatedList[i][j])
+                        tempEdgeList.append(updatedList[i][0])
+                        tempEdgeList.append(detectVerticeEdge(updatedList, int(updatedList[i][j])))
+                        edgeList.append(tempEdgeList)
+    return edgeList
+
+#Define a function that display the edge list
+def displayEdgeList(edgeList):
+    edgeListLength = len(edgeList)
+    for i in range(edgeListLength):
+        print(edgeList[i])
+
+#Define a function that finds the respective duration according to the vertex
+def detectVerticeEdge(updatedList, lookingVertice):
+    verticeEdge = updatedList[lookingVertice-1][1]
+    return verticeEdge
+
+#Define a function that displays the adjacency matrix with correct edges
+def updatedEmptyAdjacencyMatrix(edgeList, matrix):
+    for i in range(len(edgeList)):
+        for j in range(len(edgeList[i])):
+            initialVertex = int(edgeList[i][j])
+            targetVertex = int(edgeList[i][1])
+            duration = int(edgeList[i][2])
+            matrix[initialVertex][targetVertex] = duration
+            break
+    return matrix
+
+#Define a function that displays the adjacency matrix with a beautiful display
+def displayWithPrettyTable(updatedMatrix, updatedData):
+    matrixLength = len(updatedMatrix)
+    table = ColorTable(theme=Themes.LAVENDER)
+
+    verticeList = verticeIndex(updatedData)
+    verticeList.insert(0, ".")  # Header for row labels
+    table.field_names = verticeList
+
+    for i in range(matrixLength):
+        # Replace 0s with "-" for display purposes
+        row = [str(i)]  # First column: row label
+        for val in updatedMatrix[i]:
+            row.append("-" if val == 0 else str(val))
+        table.add_row(row)
+
+    print(table)
+
+#Define a function that displays earliest dates, lateste dates, the floats and the critical path
+def compute_schedules(graph, sorted_order):
+    earliest_start = {}
+    latest_start = {}
+    floats = {}
+    critical_path = []
+
+    #Compute earliest start (ES) and earliest finish (EF)
+    for node in sorted_order:
+        earliest_start[node] = max(
+            [earliest_start.get(pred, 0) + graph.nodes[pred]['duration'] for pred in graph.predecessors(node)],
+            default=0)
+
+    total_duration = max(earliest_start.values())  #Total project duration
+
+    #Compute latest start (LS) and latest finish (LF)
+    for node in reversed(sorted_order):
+        latest_start[node] = min(
+            [latest_start.get(succ, total_duration) - graph.nodes[node]['duration'] for succ in graph.successors(node)],
+            default=total_duration)
+
+    #Compute floats (TF) and find the critical path
+    for node in sorted_order:
+        floats[node] = latest_start[node] - earliest_start[node]
+        if floats[node] == 0:
+            critical_path.append(node)
+
+    return {
+        "earliest_start": earliest_start,
+        "latest_start": latest_start,
+        "floats": floats,
+        "critical_path": critical_path
+    }
+
+def display_critical_path(critical_path):
+    print("\n--------------------------------------------")
+    print("Critical Path:")
+    print("--------------------------------------------")
+    print(" -> ".join(map(str, critical_path)))
+    print("--------------------------------------------\n")
