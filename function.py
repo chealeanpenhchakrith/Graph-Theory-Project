@@ -57,6 +57,13 @@ def graphInFormOfTriplets(updatedList):
                 if (j >= 2 and j < iteration2 and updatedList[i][j] != '0'):
                     print(f"{updatedList[i][j]} -> {updatedList[i][0]} = {detectVerticeEdge(updatedList, int(updatedList[i][j]))}")
 
+# Define a function v2 of graphInFormOfTriplets
+def graphInFormOfTripletsV2(edgeList):
+    for i in range (len(edgeList)):
+        for k in range (len(edgeList[i])):
+            print(f"{edgeList[i][k]} -> {edgeList[i][k+1]} = {edgeList[i][k+2]}")
+            break
+
 #Define a function that represents the graph in a value matrix form
 def createEmptyAdjacencyMatrix(updatedList):
     emptyAdjacencyMatrix = []
@@ -64,7 +71,7 @@ def createEmptyAdjacencyMatrix(updatedList):
     verticeCounter = len(updatedList) + 2
     for row in range (verticeCounter):
         for column in range (verticeCounter):
-            temporaryRow.append(0)
+            temporaryRow.append(".")
         emptyAdjacencyMatrix.append(temporaryRow)
         temporaryRow = []
     return emptyAdjacencyMatrix
@@ -90,7 +97,7 @@ def displayAdjacencyMatrix(matrix, updatedList):
         print(f"{i:<3}", end=' ')
         for j in range(len(matrix[i])):
             value = matrix[i][j]
-            display_val = "-" if value == 0 else str(value)
+            display_val = "0" if value == 0 else str(value)
             print(f"{display_val:>3}", end=' ')
         print()
 
@@ -105,7 +112,7 @@ def verticeIndex(updatedList):
     return verticeList
 
 #Define a function that return a list of vertices, edges, duration
-def edgeList(updatedList):
+def edgeList(updatedList, verticeList):
     edgeList = []
     iteration1 = len(updatedList)
     for i in range (iteration1):
@@ -132,6 +139,26 @@ def edgeList(updatedList):
                         tempEdgeList.append(updatedList[i][0])
                         tempEdgeList.append(detectVerticeEdge(updatedList, int(updatedList[i][j])))
                         edgeList.append(tempEdgeList)
+
+    sourceVertices = {int(edge[0]) for edge in edgeList}
+    sinkVertices = [str(vertice) for vertice in verticeList if vertice not in sourceVertices]
+    print("Here is the sink vertice list", sinkVertices)
+    fictionalEndVertice = sinkVertices[-1]
+    sinkVertices.pop()
+
+    for p in range (len(sinkVertices)):
+        edgeListToFinalFictionalVertex = []
+        edgeListToFinalFictionalVertex.append(sinkVertices[p])
+        edgeListToFinalFictionalVertex.append(fictionalEndVertice)
+        edgeListToFinalFictionalVertex.append(str(updatedList[int(sinkVertices[p])-1][1]))
+        edgeList.append(edgeListToFinalFictionalVertex)
+
+        
+    print("The last part of the edge list is : ", edgeListToFinalFictionalVertex)
+
+    print("The new edge list is this :", edgeList)
+    # edgeList.append(updatedList[sinkVertices[]])
+
     return edgeList
 
 #Define a function that display the edge list
@@ -172,7 +199,7 @@ def displayWithPrettyTable(updatedMatrix, updatedData):
         # Replace 0s with "-" for display purposes
         row = [str(i)]  # First column: row label
         for val in updatedMatrix[i]:
-            row.append("-" if val == 0 else str(val))
+            row.append("0" if val == 0 else str(val))
         table.add_row(row)
 
     print(table)
@@ -245,3 +272,19 @@ def computeRanks(adj_matrix):
                 # Update the rank
                 ranks[neighbor] = max(ranks[neighbor], ranks[current] + 1)
     return ranks
+
+# vertices = [0,1,2,3,4,5]
+# edges = [
+#     ['0', '1', 0],
+#     ['0', '2', 0],
+#     ['1', '3', '3'],
+#     ['2', '3', '2'],
+#     ['4', '3', '1'],
+#     ['2', '4', '2']
+#     ]
+
+# source_vertices = {int(edge[0]) for edge in edges}
+
+# non_source_vertices = [v for v in vertices if v not in source_vertices]
+
+# print("Vertices that never appear as a source in the edge list are : ", non_source_vertices)

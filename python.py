@@ -53,40 +53,46 @@ while (condition):
                     print("\n")
 
                     # Displaying the list of vertices
-                    print("The list of vertices is : ", fct.verticeIndex(updatedData), "\n")
+                    verticeList = fct.verticeIndex(updatedData)
+                    print("The list of vertices is : ", verticeList)
 
                     # Displaying the list of initialVertex,destinationVertex,edge
-                    edgeList = fct.edgeList(updatedData)
+                    edgeList = fct.edgeList(updatedData, verticeList)
+                    print("Here's the target output : ", edgeList)
                     print("\nThe edge list looks like this : (vertex -> vertex = duration)\n")
-                    fct.displayEdgeList(fct.edgeList(updatedData))
+                    fct.displayEdgeList(edgeList)
 
-                    # Displaying the adjacency matrix in value matrix
+                    # New display in form of triplets
+                    print("New display in form of triplets :\n")
+                    fct.graphInFormOfTripletsV2(edgeList)
+
+                    # # Displaying the adjacency matrix in value matrix
                     print("\nHere is the value matrix, before pretty table : \n")
                     emptyMatrix = fct.createEmptyAdjacencyMatrix(updatedData)
                     updatedMatrix = fct.updatedEmptyAdjacencyMatrix(edgeList, emptyMatrix)
                     fct.displayAdjacencyMatrix(updatedMatrix, updatedData)
 
-                    # After pretty table
+                    # # After pretty table
                     print("\nWith pretty table magic :\n")
                     fct.displayWithPrettyTable(updatedMatrix, updatedData)
 
-                    # Check for cycle
-                    if fct.has_cycle(updatedMatrix):
-                        print("\n❌ The graph contains a cycle. It is not a valid scheduling graph.\n")
-                    else:
-                        print("\n✅ No cycles detected. Proceeding...\n")
+                    # # Check for cycle
+                    # if fct.has_cycle(updatedMatrix):
+                    #     print("\n❌ The graph contains a cycle. It is not a valid scheduling graph.\n")
+                    # else:
+                    #     print("\n✅ No cycles detected. Proceeding...\n")
 
-                    # Check for negative edges
-                    if fct.has_negative_edges(updatedMatrix):
-                        print("❌ The graph contains negative edge(s). This is not allowed in scheduling.\n")
-                    else:
-                        print("✅ No negative edge weights found.\n")
+                    # # Check for negative edges
+                    # if fct.has_negative_edges(updatedMatrix):
+                    #     print("❌ The graph contains negative edge(s). This is not allowed in scheduling.\n")
+                    # else:
+                    #     print("✅ No negative edge weights found.\n")
 
-                        # Compute ranks only if both conditions are met
-                        ranks = fct.computeRanks(updatedMatrix)
-                        print("\n📊 Ranks of the vertices:")
-                        for i, rank in enumerate(ranks):
-                            print(f"Task {i}: Rank {rank}")
+                    #     # Compute ranks only if both conditions are met
+                    #     ranks = fct.computeRanks(updatedMatrix)
+                    #     print("\n📊 Ranks of the vertices:")
+                    #     for i, rank in enumerate(ranks):
+                    #         print(f"Task {i}: Rank {rank}")
                 print("\n###################################################################################")
             except NameError:
                 print("The input must be between 1 and 14. Please enter again !")
