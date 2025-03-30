@@ -53,20 +53,26 @@ while (condition):
                     print("\n")
 
                     # Displaying the list of vertices
-                    print("The list of vertices is : ", fct.verticeIndex(updatedData), "\n")
+                    verticeList = fct.verticeIndex(updatedData)
+                    print("The list of vertices is : ", verticeList)
 
-                    # Displaying the list of initialVertex, destinationVertex, edge
-                    edgeList = fct.edgeList(updatedData)
+                    # Displaying the list of initialVertex,destinationVertex,edge
+                    edgeList = fct.edgeList(updatedData, verticeList)
+                    print("Here's the target output : ", edgeList)
                     print("\nThe edge list looks like this : (vertex -> vertex = duration)\n")
-                    fct.displayEdgeList(fct.edgeList(updatedData))
+                    fct.displayEdgeList(edgeList)
 
-                    # Displaying the adjacency matrix in value matrix
+                    # New display in form of triplets
+                    print("New display in form of triplets :\n")
+                    fct.graphInFormOfTripletsV2(edgeList)
+
+                    # # Displaying the adjacency matrix in value matrix
                     print("\nHere is the value matrix, before pretty table : \n")
                     emptyMatrix = fct.createEmptyAdjacencyMatrix(updatedData)
                     updatedMatrix = fct.updatedEmptyAdjacencyMatrix(edgeList, emptyMatrix)
                     fct.displayAdjacencyMatrix(updatedMatrix, updatedData)
 
-                    # After pretty table
+                    # # After pretty table
                     print("\nWith pretty table magic :\n")
                     fct.displayWithPrettyTable(updatedMatrix, updatedData)
 
@@ -76,7 +82,7 @@ while (condition):
                     else:
                         print("\n✅ No cycles detected. Proceeding...\n")
 
-                    # Check for negative edges
+                    #Check for negative edges
                     if fct.has_negative_edges(updatedMatrix):
                         print("❌ The graph contains negative edge(s). This is not allowed in scheduling.\n")
                     else:
