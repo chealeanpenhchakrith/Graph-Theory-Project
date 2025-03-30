@@ -250,31 +250,57 @@ def has_negative_edges(adj_matrix):
 ################# STEP4 ##################
 
 # Compute ranks for all vertices (topological sort based)
+from collections import deque
+
 def computeRanks(adj_matrix):
+    """
+    Compute the rank of each vertex in a single-source DAG where:
+      - The source is vertex 0 (rank(0) = 0).
+      - rank(v) = the maximal number of edges in any path from 0 to v.
+
+    We assume 'adj_matrix[u][v]' is:
+      - '.' (string) if there is no edge u->v,
+      - an integer (possibly 0) if there is an edge u->v.
+    """
+
     n = len(adj_matrix)
+    # 1) Compute in-degree for topological sort
     in_degree = [0] * n
-    ranks = [0] * n
+    for u in range(n):
+        for v in range(n):
+            val = adj_matrix[u][v]
+            # If it's an integer, treat it as an edge
+            if isinstance(val, int):
+                in_degree[v] += 1
 
-    # 1: Count incoming edges (in-degree)
-    for i in range(n):
-        for j in range(n):
-            if adj_matrix[i][j] != 0:
-                in_degree[j] += 1
-
-    # 2: Initialize queue with nodes having in-degree 0
-    queue = deque([i for i in range(n) if in_degree[i] == 0])
-
-    # 3: Process the graph in topological order
+    # 2) Perform topological sort (Kahn's Algorithm)
+    queue = deque([node for node in range(n) if in_degree[node] == 0])
+    topo_order = []
     while queue:
-        current = queue.popleft()
-        for neighbor in range(n):
-            if adj_matrix[current][neighbor] != 0:
-                in_degree[neighbor] -= 1
-                if in_degree[neighbor] == 0:
-                    queue.append(neighbor)
-                # Update the rank
-                ranks[neighbor] = max(ranks[neighbor], ranks[current] + 1)
+        u = queue.popleft()
+        topo_order.append(u)
+        for v in range(n):
+            val = adj_matrix[u][v]
+            if isinstance(val, int):
+                in_degree[v] -= 1
+                if in_degree[v] == 0:
+                    queue.append(v)
+
+    # 3) Longest-path relaxation in topological order
+    ranks = [0] * n  # Start all ranks at 0; rank(0)=0 by definition
+    for u in topo_order:
+        for v in range(n):
+            val = adj_matrix[u][v]
+            if isinstance(val, int):
+                # Edge u->v => update rank[v] = max(rank[v], rank[u]+1)
+                if ranks[u] + 1 > ranks[v]:
+                    ranks[v] = ranks[u] + 1
+
     return ranks
+
+
+
+
 
 # vertices = [0,1,2,3,4,5]
 # edges = [
