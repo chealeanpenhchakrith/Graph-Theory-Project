@@ -1,5 +1,5 @@
-# import the function.py file
-import function as fct
+# import the Steps file
+import Steps as fct
 
 # Set a boolean which is True
 condition = True
