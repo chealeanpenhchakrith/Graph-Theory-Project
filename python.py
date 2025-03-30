@@ -88,11 +88,11 @@ while (condition):
                     else:
                         print("✅ No negative edge weights found.\n")
 
-                    #     # Compute ranks only if both conditions are met
-                    #     ranks = fct.computeRanks(updatedMatrix)
-                    #     print("\n📊 Ranks of the vertices:")
-                    #     for i, rank in enumerate(ranks):
-                    #         print(f"Task {i}: Rank {rank}")
+                        # Compute ranks only if both conditions are met
+                        ranks = fct.computeRanks(updatedMatrix)
+                        print("\n📊 Ranks of the vertices:")
+                        for i, rank in enumerate(ranks):
+                            print(f"Task {i}: Rank {rank}")
                 print("\n###################################################################################")
             except NameError:
                 print("The input must be between 1 and 14. Please enter again !")
