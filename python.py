@@ -76,17 +76,17 @@ while (condition):
                     print("\nWith pretty table magic :\n")
                     fct.displayWithPrettyTable(updatedMatrix, updatedData)
 
-                    # # Check for cycle
-                    # if fct.has_cycle(updatedMatrix):
-                    #     print("\n❌ The graph contains a cycle. It is not a valid scheduling graph.\n")
-                    # else:
-                    #     print("\n✅ No cycles detected. Proceeding...\n")
+                    # Check for cycle
+                    if fct.has_cycle(updatedMatrix):
+                        print("\n❌ The graph contains a cycle. It is not a valid scheduling graph.\n")
+                    else:
+                        print("\n✅ No cycles detected. Proceeding...\n")
 
-                    # # Check for negative edges
-                    # if fct.has_negative_edges(updatedMatrix):
-                    #     print("❌ The graph contains negative edge(s). This is not allowed in scheduling.\n")
-                    # else:
-                    #     print("✅ No negative edge weights found.\n")
+                    #Check for negative edges
+                    if fct.has_negative_edges(updatedMatrix):
+                        print("❌ The graph contains negative edge(s). This is not allowed in scheduling.\n")
+                    else:
+                        print("✅ No negative edge weights found.\n")
 
                     #     # Compute ranks only if both conditions are met
                     #     ranks = fct.computeRanks(updatedMatrix)

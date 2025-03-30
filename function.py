@@ -238,6 +238,8 @@ def has_cycle(adj_matrix):
 def has_negative_edges(adj_matrix):
     for row in adj_matrix:
         for val in row:
+            if val == ".":
+                continue
             if val < 0:
                 return True
     return False
