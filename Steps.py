@@ -158,23 +158,42 @@ def displayWithPrettyTable(updatedMatrix, updatedData):
 # ------------------------------
 
 # Define a function that checks for cycles in the graph using Kahn's Algorithm
-def has_cycle(adj_matrix):
+def has_cycle(adj_matrix, updatedData):
+    print("\n* Detecting a cycle \n")
+    print("* Method of eliminating entry points : \n")
     n = len(adj_matrix)
     in_degree = [0] * n
     for i in range(n):
         for j in range(n):
-            if isinstance(adj_matrix[i][j], int) and adj_matrix[i][j] != 0:
+            if isinstance(adj_matrix[i][j], int) and adj_matrix[i][j] != ".":
                 in_degree[j] += 1
-    queue = deque([i for i in range(n) if in_degree[i] == 0])
+    sourceVerticesList = deque([i for i in range(n) if in_degree[i] == 0])
+    print("The current source vertice is :", list(sourceVerticesList))
     visited_count = 0
-    while queue:
-        node = queue.popleft()
+    verticeList = list(deque(verticeIndex(updatedData)))
+    print("The vertice list before elimination looks like :", verticeList)
+    while sourceVerticesList:
+        node = sourceVerticesList.popleft()
+        print(f"\nSelected entry points = [{node}]")
+        print(f"Eliminating entry points [{node}]...")
+        verticeList.remove(node)
+        if not (verticeList):
+            print("Remaining vertices : None")
+        else:
+            print(f"The current list of remaining vertices is : {verticeList}. There is a cycle !") 
         visited_count += 1
         for neighbor in range(n):
-            if isinstance(adj_matrix[node][neighbor], int) and adj_matrix[node][neighbor] != 0:
+            if isinstance(adj_matrix[node][neighbor], int) and adj_matrix[node][neighbor] != ".":
                 in_degree[neighbor] -= 1
+                
+                
                 if in_degree[neighbor] == 0:
-                    queue.append(neighbor)
+                    sourceVerticesList.append(neighbor)
+                    
+        if not list(sourceVerticesList):
+            print("Method of eliminating vertices finished")
+        else:
+            print(f"Remaining sources vertices : {list(sourceVerticesList)}")
     return visited_count != n
 
 # Define a function that checks if there are any negative edge weights in the graph
@@ -199,16 +218,16 @@ def computeRanks(adj_matrix):
         for v in range(n):
             if isinstance(adj_matrix[u][v], int):
                 in_degree[v] += 1
-    queue = deque([node for node in range(n) if in_degree[node] == 0])
+    sourceVerticesList = deque([node for node in range(n) if in_degree[node] == 0])
     topo_order = []
-    while queue:
-        u = queue.popleft()
+    while sourceVerticesList:
+        u = sourceVerticesList.popleft()
         topo_order.append(u)
         for v in range(n):
             if isinstance(adj_matrix[u][v], int):
                 in_degree[v] -= 1
                 if in_degree[v] == 0:
-                    queue.append(v)
+                    sourceVerticesList.append(v)
     ranks = [0] * n
     for u in topo_order:
         for v in range(n):
