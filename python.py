@@ -47,7 +47,7 @@ while condition:
                     print("\nThe number of edges is : ", len(edgeList))
                     
                      # Display the triplets again using an alternative view.
-                    print("\nNew display in form of triplets:")
+                    print("\nNew display in form of triplets:\n")
                     fct.graphInFormOfTripletsV2(edgeList)
                     
                     # Create and display the value matrix before formatting.
@@ -75,7 +75,7 @@ while condition:
 
                             # Compute ranks only if both conditions are met
                             ranks = fct.computeRanks(updatedMatrix)
-                            print("\n📊 Ranks of the vertices:")
+                            print("\n📊 Ranks of the vertices:\n")
                             for i, rank in enumerate(ranks):
                                 print(f"Task {i}: Rank {rank}")
 
@@ -85,17 +85,17 @@ while condition:
                             schedule_data = fct.compute_schedules(updatedMatrix, sorted_order)
                             
                             # Display earliest start times.
-                            print("\n📅 Earliest Start Dates:")
+                            print("\n📅 Earliest Start Dates:\n")
                             for node, es in schedule_data["earliest_start"].items():
                                 print(f"Task {node}: {es}")
                             
                             # Display latest start times
-                            print("\n📅 Latest Start Dates:")
+                            print("\n📅 Latest Start Dates:\n")
                             for node, ls in schedule_data["latest_start"].items():
                                 print(f"Task {node}: {ls}")
                             
                             # Display floats (slack times)
-                            print("\n📅 Floats:")
+                            print("\n📅 Floats:\n")
                             for node, fl in schedule_data["floats"].items():
                                 print(f"Task {node}: {fl}")
                             
