@@ -1,7 +1,7 @@
 from prettytable import PrettyTable
 from prettytable.colortable import ColorTable, Themes
 from collections import deque
-
+import copy
 # ------------------------------
 # STEP 1 AND STEP 2: Basic Functions
 # ------------------------------
@@ -221,73 +221,276 @@ def computeRanks(adj_matrix):
 # Additional Functions for Scheduling
 # ------------------------------
 
-# Define a function that computes a topologically sorted order of vertices
-def compute_sorted_order(adj_matrix):
-    n = len(adj_matrix)
-    in_degree = [0] * n
-    for u in range(n):
-        for v in range(n):
-            if isinstance(adj_matrix[u][v], int) and adj_matrix[u][v] != 0:
-                in_degree[v] += 1
-    queue = deque([i for i in range(n) if in_degree[i] == 0])
-    sorted_order = []
-    while queue:
-        u = queue.popleft()
-        sorted_order.append(u)
-        for v in range(n):
-            if isinstance(adj_matrix[u][v], int) and adj_matrix[u][v] != 0:
-                in_degree[v] -= 1
-                if in_degree[v] == 0:
-                    queue.append(v)
-    return sorted_order
+################# STEP5/6 ##################
 
-# Define a function that computes scheduling data (earliest start, latest start, floats, critical path)
-def compute_schedules(adj_matrix, sorted_order):
-    n = len(adj_matrix)
-    # Forward pass: compute earliest start times
-    earliest_start = [0] * n
-    for u in sorted_order:
-        for v in range(n):
-            # Get weight from u to v (if any)
-            weight = None
-            if isinstance(adj_matrix[u][v], int):
-                weight = adj_matrix[u][v]
-            elif isinstance(adj_matrix[u][v], str) and adj_matrix[u][v].isdigit():
-                weight = int(adj_matrix[u][v])
-            if weight is not None:
-                candidate = earliest_start[u] + weight
-                if candidate > earliest_start[v]:
-                    earliest_start[v] = candidate
+def calculate_earliest_dates(adj_matrix, ranks, num_vertices):
 
-    # Backward pass: compute latest start times
-    latest_start = [float('inf')] * n
-    finish = n - 1  # assume finish node is the last vertex
-    latest_start[finish] = earliest_start[finish]
-    for u in reversed(sorted_order):
-        for v in range(n):
-            weight = None
-            if isinstance(adj_matrix[u][v], int):
-                weight = adj_matrix[u][v]
-            elif isinstance(adj_matrix[u][v], str) and adj_matrix[u][v].isdigit():
-                weight = int(adj_matrix[u][v])
-            if weight is not None:
-                candidate = latest_start[v] - weight
-                if candidate < latest_start[u]:
-                    latest_start[u] = candidate
-    # For any node not updated, set LS = ES
-    for i in range(n):
-        if latest_start[i] == float('inf'):
-            latest_start[i] = earliest_start[i]
-    floats = [latest_start[i] - earliest_start[i] for i in range(n)]
-    # Determine critical path: vertices in sorted_order with zero float
-    critical_path = [i for i in sorted_order if floats[i] == 0]
+    earliest_dates = [[0, []] for _ in range(num_vertices)]
     
-    return {
-        "earliest_start": {i: earliest_start[i] for i in range(n)},
-        "latest_start": {i: latest_start[i] for i in range(n)},
-        "floats": {i: floats[i] for i in range(n)},
-        "critical_path": critical_path
-    }
+    valid_vertices = [(i, r) for i, r in enumerate(ranks) if i > 0 and i < num_vertices - 1]
+    sorted_vertices = sorted(valid_vertices, key=lambda x: x[1])
+    
+    for vertex, _ in sorted_vertices:
+        predecessors = []
+        for pred in range(num_vertices):
+            if adj_matrix[pred][vertex] not in (0, '.'):  
+                try:
+                    duration = int(adj_matrix[pred][vertex])
+                except ValueError:
+                    print(f"⚠️ Error: Unable to convert {adj_matrix[pred][vertex]} to int. Setting duration to 0.")
+                    duration = 0
+                
+                pred_finish_time = earliest_dates[pred][0] + duration  
+                predecessors.append((pred, pred_finish_time))
+        
+        if predecessors:
+            max_time = max(predecessors, key=lambda x: x[1])[1]
+            earliest_dates[vertex][0] = max_time
+            earliest_dates[vertex][1] = [pred for pred, finish_time in predecessors if finish_time == max_time]
+        else:
+            earliest_dates[vertex][0] = 0
+            earliest_dates[vertex][1] = []
 
-def display_critical_path(critical_path):
-    print("Critical Path: " + " -> ".join(map(str, critical_path)))
+    last_task = num_vertices - 1
+    predecessors = []
+    for pred in range(num_vertices - 1): 
+        if adj_matrix[pred][last_task] not in (0, '.'): 
+            try:
+                duration = int(adj_matrix[pred][last_task])
+            except ValueError:
+                print(f"⚠️ Error: Unable to convert {adj_matrix[pred][last_task]} to int. Setting duration to 0.")
+                duration = 0
+
+            pred_finish_time = earliest_dates[pred][0] + duration
+            predecessors.append((pred, pred_finish_time))
+
+    if predecessors:
+        max_time = max(predecessors, key=lambda x: x[1])[1]
+        earliest_dates[last_task][0] = max_time
+        earliest_dates[last_task][1] = [pred for pred, finish_time in predecessors if finish_time == max_time]
+    else:
+        earliest_dates[last_task][0] = 0
+        earliest_dates[last_task][1] = []
+    
+    return earliest_dates
+
+
+def convert_adj_matrix(adj_matrix):
+    converted_matrix = []
+    for row in adj_matrix:
+        converted_row = []
+        for value in row:
+            if value == '.' or value == '0':
+                converted_row.append(0)
+            else:
+                try:
+                    converted_row.append(int(value))
+                except ValueError:
+                    try:
+                        converted_row.append(float(value))
+                    except ValueError:
+                        converted_row.append(0)
+        converted_matrix.append(converted_row)
+    return converted_matrix
+
+
+def calculate_latest_dates(adj_matrix, earliest_dates, ranks, num_vertices):
+
+    try:
+        ranks = [int(rank) for rank in ranks]
+    except ValueError:
+        print("⚠️ ranks 包含無法轉換為 int 的元素。")
+    
+    try:
+        project_end_time = int(earliest_dates[num_vertices - 1][0])
+    except ValueError:
+        try:
+            project_end_time = float(earliest_dates[num_vertices - 1][0])
+        except ValueError:
+            print(f"⚠️ Error: Unable to convert project_end_time to a valid number. Using 0 as fallback.")
+            project_end_time = 0
+
+    latest_dates = [0 if i == 0 else project_end_time for i in range(num_vertices)]
+    last_task = num_vertices - 1  
+    leaf_nodes = []
+    
+    for task in range(1, num_vertices - 1): 
+        has_successor = False
+        
+        for succ in range(num_vertices):
+            if adj_matrix[task][succ] not in (0, '.'):  
+                has_successor = True
+                break
+        
+        if not has_successor:  
+            leaf_nodes.append(task)
+    
+    for leaf in leaf_nodes:
+        latest_dates[leaf] = earliest_dates[leaf][0]
+
+    valid_vertices = [(i, ranks[i]) for i in range(1, num_vertices - 1)]
+    sorted_vertices = sorted(valid_vertices, key=lambda x: x[1], reverse=True)
+    
+    for vertex, _ in sorted_vertices:
+        successors = []
+        
+        if ranks[vertex] == max(ranks): 
+            latest_dates[vertex] = earliest_dates[vertex][0] 
+            successors.append((num_vertices - 1, latest_dates[vertex])) 
+        else:
+            for succ in range(num_vertices):
+                if adj_matrix[vertex][succ] != 0 and adj_matrix[vertex][succ] != '.':
+                    try:
+                        duration = int(adj_matrix[vertex][succ])
+                        latest_start_constraint = latest_dates[succ] - duration
+                        successors.append((succ, latest_start_constraint))
+                    except ValueError:
+                        print(f"Error converting {adj_matrix[vertex][succ]} to int.")
+            
+            if successors:
+                min_succ, min_time = min(successors, key=lambda x: x[1])
+                latest_dates[vertex] = min_time
+            else:
+                if latest_dates[vertex] == project_end_time:
+                    latest_dates[vertex] = project_end_time
+
+    return latest_dates
+
+def calculate_floats(earliest_dates, latest_dates, num_vertices):
+    floats = []
+    for i in range(num_vertices):
+        earliest = earliest_dates[i][0] if isinstance(earliest_dates[i], list) else earliest_dates[i]
+        float_time = latest_dates[i] - earliest
+        floats.append(float_time)
+    return floats
+
+def identify_critical_path(floats, num_vertices, earliest_dates, ranks, adj_matrix, updatedData):
+    critical_tasks = [i for i in range(num_vertices) if floats[i] == 0]
+
+    for row in adj_matrix:
+        for index, value in enumerate(row):
+            if isinstance(value, str):
+                if value == '.':
+                    row[index] = 0
+                else:
+                    try:
+                        row[index] = int(value)
+                    except ValueError:
+                        row[index] = 0
+    
+    modified_earliest_dates = copy.deepcopy(earliest_dates)
+    for i in range(1, num_vertices - 1):  
+        if ranks[i] == 1 and not modified_earliest_dates[i][1]:
+            modified_earliest_dates[i][1] = [0]  
+    
+    last_task = num_vertices - 1  
+    max_rank = max(ranks[1:last_task])  
+    max_rank_tasks = [i for i in range(1, last_task) if ranks[i] == max_rank]  
+
+    for task in max_rank_tasks:
+        if task not in modified_earliest_dates[last_task][1]:
+            modified_earliest_dates[last_task][1].append(task)
+    
+    leaf_nodes = []
+    for task in range(1, num_vertices - 1): 
+        is_leaf = all(adj_matrix[task][j] in (0, '.') for j in range(num_vertices))
+        if is_leaf:
+            leaf_nodes.append(task)
+
+    for leaf in leaf_nodes:
+        if leaf not in modified_earliest_dates[last_task][1]:
+            modified_earliest_dates[last_task][1].append(leaf)
+    
+    def calculate_path_sum(task):
+        path_sum = 0
+        current = task
+        
+        while current != 0:
+            predecessors = modified_earliest_dates[current][1]
+            if not predecessors:
+                break  
+            
+            pred = predecessors[0]  
+            duration = adj_matrix[pred][current] if adj_matrix[pred][current] != '.' else 0
+            path_sum += duration
+            current = pred
+
+        return path_sum
+
+    def get_task_duration(task_id):
+        for data in updatedData:
+            if int(data[0]) == task_id:
+                return int(data[1])
+        return 0  
+    
+    path_sums = {}
+    for task in max_rank_tasks:
+        task_path_sum = calculate_path_sum(task)
+        task_duration = get_task_duration(task)  
+        total_path_sum = task_path_sum + task_duration  
+        path_sums[task] = total_path_sum
+    
+    max_path_sum = max(path_sums.values())
+    valid_max_tasks = [task for task, sum_value in path_sums.items() if sum_value == max_path_sum]
+
+    task_paths = {i: [] for i in range(num_vertices)}
+    for task in critical_tasks:
+        predecessors = modified_earliest_dates[task][1]
+        task_paths[task] = predecessors
+
+    all_critical_paths = []
+    
+    def backtrack(current_task, path):
+        if current_task == 0: 
+            complete_path = path[::-1] + [last_task]
+            all_critical_paths.append(complete_path)
+            return
+        
+        if current_task not in task_paths or not task_paths[current_task]:
+            return
+        
+        for pred in task_paths[current_task]:  
+            backtrack(pred, path + [pred])
+    
+    for task in valid_max_tasks:
+        backtrack(task, [task])
+    
+    return all_critical_paths
+
+def display_scheduling_results(earliest_dates, latest_dates, floats, critical_path, updatedData):
+    from prettytable import PrettyTable
+    
+    table = PrettyTable()
+    table.field_names = ["Task", "Duration", "Earliest Start", "Latest Start", "Float", "Critical Path"]
+    
+    num_vertices = len(floats)
+    
+    for i in range(num_vertices):
+        duration = 0
+        if i > 0 and i < len(updatedData) + 1:
+            try:
+                duration = int(updatedData[i-1][1])
+            except:
+                duration = 0
+        earliest = earliest_dates[i][0] if isinstance(earliest_dates[i], list) else earliest_dates[i]
+        
+        is_critical = "Yes" if floats[i] == 0 else "No"
+        
+        table.add_row([i, duration, earliest, latest_dates[i], floats[i], is_critical])
+    
+    print(table)
+    for path in critical_path:
+        print(f"critical path(s): {' → '.join(map(str, path))}")
+
+def scheduling_analysis(adj_matrix, ranks, updatedData):
+
+    num_vertices = len(adj_matrix)
+
+    earliest_dates = calculate_earliest_dates(adj_matrix, ranks, num_vertices)
+    latest_dates = calculate_latest_dates(adj_matrix, earliest_dates, ranks, num_vertices)
+    floats = calculate_floats(earliest_dates, latest_dates, num_vertices)
+    critical_path= identify_critical_path(floats, num_vertices, earliest_dates, ranks, adj_matrix, updatedData)
+    
+    display_scheduling_results(earliest_dates, latest_dates, floats, critical_path, updatedData)
+    
+    return earliest_dates, latest_dates, floats, critical_path

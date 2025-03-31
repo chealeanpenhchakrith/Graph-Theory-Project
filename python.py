@@ -78,29 +78,17 @@ while condition:
                             print("\n📊 Ranks of the vertices:\n")
                             for i, rank in enumerate(ranks):
                                 print(f"Task {i}: Rank {rank}")
-
-                            
-                            # STEP 5: Compute Schedules
-                            sorted_order = fct.compute_sorted_order(updatedMatrix)
-                            schedule_data = fct.compute_schedules(updatedMatrix, sorted_order)
-                            
-                            # Display earliest start times.
-                            print("\n📅 Earliest Start Dates:\n")
-                            for node, es in schedule_data["earliest_start"].items():
-                                print(f"Task {node}: {es}")
-                            
-                            # Display latest start times
-                            print("\n📅 Latest Start Dates:\n")
-                            for node, ls in schedule_data["latest_start"].items():
-                                print(f"Task {node}: {ls}")
-                            
-                            # Display floats (slack times)
-                            print("\n📅 Floats:\n")
-                            for node, fl in schedule_data["floats"].items():
-                                print(f"Task {node}: {fl}")
-                            
-                            # STEP 6: Display the critical path
-                            fct.display_critical_path(schedule_data["critical_path"])
+                           
+                    if fct.has_cycle(updatedMatrix):
+                        print("\n❌ The graph contains a cycle. Unable to calculate scheduling information.\n")
+                    elif fct.has_negative_edges(updatedMatrix):
+                        print("\n❌ The graph contains negative edge weights. Unable to calculate scheduling information.\n")
+                    else:
+                        print("\n✅ The graph is a valid scheduling graph. Proceeding with scheduling calculation...\n")
+                        updatedMatrix = fct.convert_adj_matrix(updatedMatrix)
+                        earliest_dates, latest_dates, floats, critical_path = fct.scheduling_analysis(
+                            updatedMatrix, ranks, updatedData)
+                        print("\nScheduling analysis completed!")
 
                 print("\n###################################################################################")
             except NameError:
