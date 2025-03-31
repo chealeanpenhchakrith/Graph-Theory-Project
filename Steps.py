@@ -180,12 +180,11 @@ def has_cycle(adj_matrix, updatedData):
         if not (verticeList):
             print("Remaining vertices : None")
         else:
-            print(f"The current list of remaining vertices is : {verticeList}. There is a cycle !") 
+            print(f"The current list of remaining vertices is : {verticeList}.") 
         visited_count += 1
         for neighbor in range(n):
             if isinstance(adj_matrix[node][neighbor], int) and adj_matrix[node][neighbor] != ".":
                 in_degree[neighbor] -= 1
-                
                 
                 if in_degree[neighbor] == 0:
                     sourceVerticesList.append(neighbor)

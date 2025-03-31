@@ -60,31 +60,19 @@ while condition:
                     print("\nWith pretty table magic:")
                     fct.displayWithPrettyTable(updatedMatrix, updatedData)
                     
-                    # # Check for cycles
-                    # if fct.has_cycle(updatedMatrix, updatedData):
-                    #     print("\n❌ The graph contains a cycle. It is not a valid scheduling graph.\n")
-                    # else:
-                    #     print("\n✅ No cycles detected. Proceeding...\n")
-
-                    #     # Check for negative edge weights
-                    #     if fct.has_negative_edges(updatedMatrix):
-                    #         print("❌ The graph contains negative edge(s). This is not allowed in scheduling.\n")
-                    #     else:
-                    #         print("✅ No negative edge weights found.\n")
-
-
-                    # Compute ranks only if both conditions are met
-                    ranks = fct.computeRanks(updatedMatrix)
-                    print("\n📊 Ranks of the vertices:\n")
-                    for i, rank in enumerate(ranks):
-                        print(f"Task {i}: Rank {rank}")
-                           
+    
                     if fct.has_cycle(updatedMatrix, updatedData):
-                        print("\n❌ The graph contains a cycle. Unable to calculate scheduling information.\n")
+                        print("\n❌ The graph contains a cycle. It is not a valid scheduling graph.\n")
                     elif fct.has_negative_edges(updatedMatrix):
-                        print("\n❌ The graph contains negative edge weights. Unable to calculate scheduling information.\n")
+                        print("\n❌ The graph contains negative edge weights. It is not a valid scheduling graph.\n")
                     else:
-                        print("\n✅ The graph is a valid scheduling graph. Proceeding with scheduling calculation...\n")
+                        print("\nThere is no cycle and no negative edges thus : \n✅ The graph is a valid scheduling graph.  Proceeding with scheduling calculation...\n")
+                        # Compute ranks only if both conditions are met
+                        ranks = fct.computeRanks(updatedMatrix)
+                        print("\n📊 Ranks of the vertices:\n")
+                        for i, rank in enumerate(ranks):
+                            print(f"Task {i}: Rank {rank}")
+                        print("\n")
                         updatedMatrix = fct.convert_adj_matrix(updatedMatrix)
                         earliest_dates, latest_dates, floats, critical_path = fct.scheduling_analysis(
                             updatedMatrix, ranks, updatedData)
