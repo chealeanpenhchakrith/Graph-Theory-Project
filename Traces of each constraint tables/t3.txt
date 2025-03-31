@@ -1,10 +1,19 @@
+Do you want to test a constraint table? Answer by y or n : y
+
+
+Which table do you want to work with? Please enter a number between 1 and 14 : 3
+
+
+The data have been successfully stored in memory!
+
 #############################  Table : 3  ################################
 
 The number of vertices is :  14 (after adding 2 fictional tasks 0 and 13 )
 
-The number of edges is :  19
+The number of edges is :  22
 
-New display in form of triplets:
+The graph in form of triplets is :
+
 0 -> 1 = 0
 0 -> 2 = 0
 1 -> 3 = 2
@@ -28,7 +37,8 @@ New display in form of triplets:
 9 -> 13 = 5
 10 -> 13 = 9
 
-With pretty table magic:
+The adjacency matrix is :
+
 +----+---+---+---+---+---+---+---+---+---+---+----+----+----+----+
 | .  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 |
 +----+---+---+---+---+---+---+---+---+---+---+----+----+----+----+
@@ -48,12 +58,88 @@ With pretty table magic:
 | 13 | . | . | . | . | . | . | . | . | . | . | .  | .  | .  | .  |
 +----+---+---+---+---+---+---+---+---+---+---+----+----+----+----+
 
-✅ No cycles detected. Proceeding...
+* Detecting a cycle 
 
-✅ No negative edge weights found.
+* Method of eliminating entry points : 
+
+The current source vertice is : [0]
+The vertice list before elimination looks like : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+
+Selected entry points = [0]
+Eliminating entry points [0]...
+The current list of remaining vertices is : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].
+Remaining sources vertices : [1, 2]
+
+Selected entry points = [1]
+Eliminating entry points [1]...
+The current list of remaining vertices is : [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].
+Remaining sources vertices : [2]
+
+Selected entry points = [2]
+Eliminating entry points [2]...
+The current list of remaining vertices is : [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].
+Remaining sources vertices : [4]
+
+Selected entry points = [4]
+Eliminating entry points [4]...
+The current list of remaining vertices is : [3, 5, 6, 7, 8, 9, 10, 11, 12, 13].
+Remaining sources vertices : [3, 5, 11]
+
+Selected entry points = [3]
+Eliminating entry points [3]...
+The current list of remaining vertices is : [5, 6, 7, 8, 9, 10, 11, 12, 13].
+Remaining sources vertices : [5, 11, 12]
+
+Selected entry points = [5]
+Eliminating entry points [5]...
+The current list of remaining vertices is : [6, 7, 8, 9, 10, 11, 12, 13].
+Remaining sources vertices : [11, 12, 6]
+
+Selected entry points = [11]
+Eliminating entry points [11]...
+The current list of remaining vertices is : [6, 7, 8, 9, 10, 12, 13].
+Remaining sources vertices : [12, 6, 10]
+
+Selected entry points = [12]
+Eliminating entry points [12]...
+The current list of remaining vertices is : [6, 7, 8, 9, 10, 13].
+Remaining sources vertices : [6, 10]
+
+Selected entry points = [6]
+Eliminating entry points [6]...
+The current list of remaining vertices is : [7, 8, 9, 10, 13].
+Remaining sources vertices : [10, 7]
+
+Selected entry points = [10]
+Eliminating entry points [10]...
+The current list of remaining vertices is : [7, 8, 9, 13].
+Remaining sources vertices : [7]
+
+Selected entry points = [7]
+Eliminating entry points [7]...
+The current list of remaining vertices is : [8, 9, 13].
+Remaining sources vertices : [8, 9]
+
+Selected entry points = [8]
+Eliminating entry points [8]...
+The current list of remaining vertices is : [9, 13].
+Remaining sources vertices : [9]
+
+Selected entry points = [9]
+Eliminating entry points [9]...
+The current list of remaining vertices is : [13].
+Remaining sources vertices : [13]
+
+Selected entry points = [13]
+Eliminating entry points [13]...
+Remaining vertices : None
+Method of eliminating vertices finished
+
+There is no cycle and no negative edges thus : ✅ The graph is a valid scheduling graph.  Proceeding with scheduling calculation...
 
 
 📊 Ranks of the vertices:
+
 Task 0: Rank 0
 Task 1: Rank 1
 Task 2: Rank 1
@@ -69,51 +155,29 @@ Task 11: Rank 3
 Task 12: Rank 4
 Task 13: Rank 7
 
-📅 Earliest Start Dates:
-Task 0: 0
-Task 1: 0
-Task 2: 0
-Task 3: 7
-Task 4: 5
-Task 5: 7
-Task 6: 12
-Task 7: 17
-Task 8: 26
-Task 9: 26
-Task 10: 8
-Task 11: 7
-Task 12: 11
-Task 13: 31
 
-📅 Latest Start Dates:
-Task 0: 0
-Task 1: 23
-Task 2: 0
-Task 3: 25
-Task 4: 5
-Task 5: 7
-Task 6: 12
-Task 7: 17
-Task 8: 30
-Task 9: 26
-Task 10: 22
-Task 11: 21
-Task 12: 29
-Task 13: 31
+Computing : earliest date, latest date, floats, critical path
 
-📅 Floats:
-Task 0: 0
-Task 1: 23
-Task 2: 0
-Task 3: 18
-Task 4: 0
-Task 5: 0
-Task 6: 0
-Task 7: 0
-Task 8: 4
-Task 9: 0
-Task 10: 14
-Task 11: 14
-Task 12: 18
-Task 13: 0
-Critical Path: 0 -> 2 -> 4 -> 5 -> 6 -> 7 -> 9 -> 13
++------+----------+----------------+--------------+-------+---------------+
+| Task | Duration | Earliest Start | Latest Start | Float | Critical Path |
++------+----------+----------------+--------------+-------+---------------+
+|  0   |    0     |       0        |      0       |   0   |      Yes      |
+|  1   |    2     |       0        |      23      |   23  |       No      |
+|  2   |    5     |       0        |      0       |   0   |      Yes      |
+|  3   |    4     |       7        |      25      |   18  |       No      |
+|  4   |    2     |       5        |      5       |   0   |      Yes      |
+|  5   |    5     |       7        |      7       |   0   |      Yes      |
+|  6   |    5     |       12       |      12      |   0   |      Yes      |
+|  7   |    9     |       17       |      17      |   0   |      Yes      |
+|  8   |    1     |       26       |      30      |   4   |       No      |
+|  9   |    5     |       26       |      26      |   0   |      Yes      |
+|  10  |    9     |       8        |      22      |   14  |       No      |
+|  11  |    1     |       7        |      21      |   14  |       No      |
+|  12  |    1     |       11       |      29      |   18  |       No      |
+|  13  |    0     |       31       |      31      |   0   |      Yes      |
++------+----------+----------------+--------------+-------+---------------+
+critical path(s): 0 → 2 → 4 → 5 → 6 → 7 → 9 → 13
+
+Scheduling analysis completed!
+
+###################################################################################

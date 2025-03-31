@@ -72,7 +72,8 @@ while condition:
                         
                         print("\nScheduling analysis completed!")
 
-                print("\n###################################################################################")
+                print("\n#####################################################################################")
+                                                      
             except NameError:
                 print("The input must be between 1 and 14. Please enter again!")
         except NameError:

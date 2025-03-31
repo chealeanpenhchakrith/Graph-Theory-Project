@@ -110,14 +110,11 @@ def edgeList(updatedList, verticeList):
                 edgeList.append(temp)
     sourceVertices = {int(edge[0]) for edge in edgeList}
     sinkVertices = [str(v) for v in verticeList if v not in sourceVertices]
-    #print("Here is the sink vertice list", sinkVertices)
     fictionalEndVertice = sinkVertices[-1]
     sinkVertices.pop()
     for s in sinkVertices:
         temp = [s, fictionalEndVertice, str(updatedList[int(s)-1][1])]
         edgeList.append(temp)
-    #print("The last part of the edge list is :", temp)
-    #print("The new edge list is this :", edgeList)
     return edgeList
 
 # Define a function that displays the edge list by printing each edge

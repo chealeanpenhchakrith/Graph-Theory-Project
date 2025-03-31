@@ -1,10 +1,19 @@
+Do you want to test a constraint table? Answer by y or n : y
+
+
+Which table do you want to work with? Please enter a number between 1 and 14 : 13
+
+
+The data have been successfully stored in memory!
+
 #############################  Table : 13  ################################
 
 The number of vertices is :  6 (after adding 2 fictional tasks 0 and 5 )
 
-The number of edges is :  5
+The number of edges is :  7
 
-New display in form of triplets:
+The graph in form of triplets is :
+
 0 -> 1 = 0
 1 -> 2 = 9
 3 -> 2 = 4
@@ -13,7 +22,8 @@ New display in form of triplets:
 2 -> 5 = 2
 4 -> 5 = 7
 
-With pretty table magic:
+The adjacency matrix is :
+
 +---+---+---+---+---+---+---+
 | . | 0 | 1 | 2 | 3 | 4 | 5 |
 +---+---+---+---+---+---+---+
@@ -25,12 +35,48 @@ With pretty table magic:
 | 5 | . | . | . | . | . | . |
 +---+---+---+---+---+---+---+
 
-✅ No cycles detected. Proceeding...
+* Detecting a cycle 
 
-✅ No negative edge weights found.
+* Method of eliminating entry points : 
+
+The current source vertice is : [0]
+The vertice list before elimination looks like : [0, 1, 2, 3, 4, 5]
+
+Selected entry points = [0]
+Eliminating entry points [0]...
+The current list of remaining vertices is : [1, 2, 3, 4, 5].
+Remaining sources vertices : [1, 3]
+
+Selected entry points = [1]
+Eliminating entry points [1]...
+The current list of remaining vertices is : [2, 3, 4, 5].
+Remaining sources vertices : [3]
+
+Selected entry points = [3]
+Eliminating entry points [3]...
+The current list of remaining vertices is : [2, 4, 5].
+Remaining sources vertices : [2, 4]
+
+Selected entry points = [2]
+Eliminating entry points [2]...
+The current list of remaining vertices is : [4, 5].
+Remaining sources vertices : [4]
+
+Selected entry points = [4]
+Eliminating entry points [4]...
+The current list of remaining vertices is : [5].
+Remaining sources vertices : [5]
+
+Selected entry points = [5]
+Eliminating entry points [5]...
+Remaining vertices : None
+Method of eliminating vertices finished
+
+There is no cycle and no negative edges thus : ✅ The graph is a valid scheduling graph.  Proceeding with scheduling calculation...
 
 
 📊 Ranks of the vertices:
+
 Task 0: Rank 0
 Task 1: Rank 1
 Task 2: Rank 2
@@ -38,29 +84,22 @@ Task 3: Rank 1
 Task 4: Rank 2
 Task 5: Rank 3
 
-📅 Earliest Start Dates:
-Task 0: 0
-Task 1: 0
-Task 2: 9
-Task 3: 0
-Task 4: 4
-Task 5: 11
 
-📅 Latest Start Dates:
-Task 0: 0
-Task 1: 0
-Task 2: 9
-Task 3: 0
-Task 4: 4
-Task 5: 11
+Computing : earliest date, latest date, floats, critical path
 
-📅 Floats:
-Task 0: 0
-Task 1: 0
-Task 2: 0
-Task 3: 0
-Task 4: 0
-Task 5: 0
-Critical Path: 0 -> 1 -> 3 -> 2 -> 4 -> 5
++------+----------+----------------+--------------+-------+---------------+
+| Task | Duration | Earliest Start | Latest Start | Float | Critical Path |
++------+----------+----------------+--------------+-------+---------------+
+|  0   |    0     |       0        |      0       |   0   |      Yes      |
+|  1   |    9     |       0        |      0       |   0   |      Yes      |
+|  2   |    2     |       9        |      9       |   0   |      Yes      |
+|  3   |    4     |       0        |      0       |   0   |      Yes      |
+|  4   |    7     |       4        |      4       |   0   |      Yes      |
+|  5   |    0     |       11       |      11      |   0   |      Yes      |
++------+----------+----------------+--------------+-------+---------------+
+critical path(s): 0 → 1 → 2 → 5
+critical path(s): 0 → 3 → 4 → 5
+
+Scheduling analysis completed!
 
 ###################################################################################
