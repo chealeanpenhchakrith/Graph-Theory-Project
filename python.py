@@ -27,8 +27,7 @@ while condition:
                     print("\nThe number of vertices is : ", fct.verticeCounter(data) + 2, 
                           "(after adding 2 fictional tasks 0 and", fct.verticeCounter(data) + 1,")")
                     
-                    # Display the number of edges
-                    print("\nThe number of edges is : ", fct.edgeCounter(updatedData))
+                    
 
                     # Display the graph in triplet format.
                     #print("\nThe graph in form of triplets looks like this:")
@@ -43,6 +42,9 @@ while condition:
                     #print("\nHere's the target output (edge list): ", edgeList)
                     #print("\nThe edge list looks like this (vertex -> vertex = duration):")
                     #fct.displayEdgeList(edgeList)
+
+                    # Display the number of edges
+                    print("\nThe number of edges is : ", len(edgeList))
                     
                      # Display the triplets again using an alternative view.
                     print("\nNew display in form of triplets:")
@@ -65,10 +67,6 @@ while condition:
                         print("\n✅ No cycles detected. Proceeding...\n")
 
                         # Check for negative edge weights
-
-
-                       
-
                         if fct.has_negative_edges(updatedMatrix):
                             print("❌ The graph contains negative edge(s). This is not allowed in scheduling.\n")
                         else:
@@ -76,7 +74,6 @@ while condition:
 
 
                             # Compute ranks only if both conditions are met
-
                             ranks = fct.computeRanks(updatedMatrix)
                             print("\n📊 Ranks of the vertices:")
                             for i, rank in enumerate(ranks):
