@@ -63,16 +63,25 @@ while condition:
                         print("\n❌ The graph contains a cycle. It is not a valid scheduling graph.\n")
                     else:
                         print("\n✅ No cycles detected. Proceeding...\n")
+
                         # Check for negative edge weights
+
+
+                       
+
                         if fct.has_negative_edges(updatedMatrix):
                             print("❌ The graph contains negative edge(s). This is not allowed in scheduling.\n")
                         else:
                             print("✅ No negative edge weights found.\n")
-                            # Compute and display ranks
+
+
+                            # Compute ranks only if both conditions are met
+
                             ranks = fct.computeRanks(updatedMatrix)
                             print("\n📊 Ranks of the vertices:")
                             for i, rank in enumerate(ranks):
                                 print(f"Task {i}: Rank {rank}")
+
                             
                             # STEP 5: Compute Schedules
                             sorted_order = fct.compute_sorted_order(updatedMatrix)
@@ -95,6 +104,7 @@ while condition:
                             
                             # STEP 6: Display the critical path
                             fct.display_critical_path(schedule_data["critical_path"])
+
                 print("\n###################################################################################")
             except NameError:
                 print("The input must be between 1 and 14. Please enter again!")
