@@ -1,0 +1,105 @@
+#############################  Table : 8  ################################
+
+The number of vertices is :  12 (after adding 2 fictional tasks 0 and 11 )
+
+The number of edges is :  17
+
+New display in form of triplets:
+4 -> 1 = 4
+5 -> 1 = 5
+10 -> 1 = 10
+7 -> 2 = 7
+6 -> 3 = 6
+10 -> 3 = 10
+0 -> 4 = 0
+0 -> 5 = 0
+0 -> 6 = 0
+0 -> 7 = 0
+5 -> 8 = 5
+7 -> 8 = 7
+1 -> 9 = 1
+2 -> 9 = 2
+3 -> 9 = 3
+8 -> 9 = 9
+0 -> 10 = 0
+9 -> 11 = 9
+
+With pretty table magic:
++----+---+----+---+----+---+---+---+---+---+---+----+----+
+| .  | 0 | 1  | 2 | 3  | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
++----+---+----+---+----+---+---+---+---+---+---+----+----+
+| 0  | . | .  | . | .  | 0 | 0 | 0 | 0 | . | . | 0  | .  |
+| 1  | . | .  | . | .  | . | . | . | . | . | 1 | .  | .  |
+| 2  | . | .  | . | .  | . | . | . | . | . | 2 | .  | .  |
+| 3  | . | .  | . | .  | . | . | . | . | . | 3 | .  | .  |
+| 4  | . | 4  | . | .  | . | . | . | . | . | . | .  | .  |
+| 5  | . | 5  | . | .  | . | . | . | . | 5 | . | .  | .  |
+| 6  | . | .  | . | 6  | . | . | . | . | . | . | .  | .  |
+| 7  | . | .  | 7 | .  | . | . | . | . | 7 | . | .  | .  |
+| 8  | . | .  | . | .  | . | . | . | . | . | 9 | .  | .  |
+| 9  | . | .  | . | .  | . | . | . | . | . | . | .  | 9  |
+| 10 | . | 10 | . | 10 | . | . | . | . | . | . | .  | .  |
+| 11 | . | .  | . | .  | . | . | . | . | . | . | .  | .  |
++----+---+----+---+----+---+---+---+---+---+---+----+----+
+
+✅ No cycles detected. Proceeding...
+
+✅ No negative edge weights found.
+
+
+📊 Ranks of the vertices:
+Task 0: Rank 0
+Task 1: Rank 2
+Task 2: Rank 2
+Task 3: Rank 2
+Task 4: Rank 1
+Task 5: Rank 1
+Task 6: Rank 1
+Task 7: Rank 1
+Task 8: Rank 2
+Task 9: Rank 3
+Task 10: Rank 1
+Task 11: Rank 4
+
+📅 Earliest Start Dates:
+Task 0: 0
+Task 1: 10
+Task 2: 7
+Task 3: 10
+Task 4: 0
+Task 5: 0
+Task 6: 0
+Task 7: 0
+Task 8: 7
+Task 9: 16
+Task 10: 0
+Task 11: 25
+
+📅 Latest Start Dates:
+Task 0: 0
+Task 1: 15
+Task 2: 14
+Task 3: 13
+Task 4: 11
+Task 5: 2
+Task 6: 7
+Task 7: 0
+Task 8: 7
+Task 9: 16
+Task 10: 3
+Task 11: 25
+
+📅 Floats:
+Task 0: 0
+Task 1: 5
+Task 2: 7
+Task 3: 3
+Task 4: 11
+Task 5: 2
+Task 6: 7
+Task 7: 0
+Task 8: 0
+Task 9: 0
+Task 10: 3
+Task 11: 0
+Critical Path: 0 -> 7 -> 8 -> 9 -> 11
