@@ -20,87 +20,57 @@ while condition:
                     
                     # Process the data to fill in missing predecessor values
                     updatedData = fct.fillsPredecessor(data)
-                    #print("\nThe chosen table looks like this:")
-                    #fct.displayUpdatedDataFile(updatedData)
 
                     # Display the number of vertices (including fictional start and finish)
                     print("\nThe number of vertices is : ", fct.verticeCounter(data) + 2, 
                           "(after adding 2 fictional tasks 0 and", fct.verticeCounter(data) + 1,")")
                     
-                    
-
-                    # Display the graph in triplet format.
-                    #print("\nThe graph in form of triplets looks like this:")
-                    #fct.graphInFormOfTriplets(updatedData)
-                    
                     # Generate and display the list of vertices.
                     verticeList = fct.verticeIndex(updatedData)
-                    #print("\nThe list of vertices is : ", verticeList)
                     
-                     # Generate and display the edge list
+                    # Generate and display the edge list
                     edgeList = fct.edgeList(updatedData, verticeList)
-                    #print("\nHere's the target output (edge list): ", edgeList)
-                    #print("\nThe edge list looks like this (vertex -> vertex = duration):")
-                    #fct.displayEdgeList(edgeList)
 
                     # Display the number of edges
                     print("\nThe number of edges is : ", len(edgeList))
                     
-                     # Display the triplets again using an alternative view.
-                    print("\nNew display in form of triplets:\n")
+                    # Display the triplets again using an alternative view.
+                    print("\nThe graph in form of triplets is :\n")
                     fct.graphInFormOfTripletsV2(edgeList)
                     
                     # Create and display the value matrix before formatting.
-                    #print("\nHere is the value matrix, before pretty table:")
                     emptyMatrix = fct.createEmptyAdjacencyMatrix(updatedData)
                     updatedMatrix = fct.updatedEmptyAdjacencyMatrix(edgeList, emptyMatrix)
-                    #fct.displayAdjacencyMatrix(updatedMatrix, updatedData)
                     
-                     # Display the value matrix using PrettyTable.
-                    print("\nWith pretty table magic:")
+                    # Display the value matrix using PrettyTable.
+                    print("\nThe adjacency matrix is :\n")
                     fct.displayWithPrettyTable(updatedMatrix, updatedData)
                     
-                    # Check for cycles
-                    if fct.has_cycle(updatedMatrix):
+                    # Check whether the graph contains a cycle or not
+                    if fct.has_cycle(updatedMatrix, updatedData):
                         print("\n❌ The graph contains a cycle. It is not a valid scheduling graph.\n")
+
+                        # Check whether the graph contains negeative edges or not
+                    elif fct.has_negative_edges(updatedMatrix):
+                        print("\n❌ The graph contains negative edge weights. It is not a valid scheduling graph.\n")
+
                     else:
-                        print("\n✅ No cycles detected. Proceeding...\n")
+                        # If both condition are met compute the next steps (rank, earliest dates, latest dates, floats, critical path)
+                        print("\nThere is no cycle and no negative edges thus : ✅ The graph is a valid scheduling graph.  Proceeding with scheduling calculation...\n")
+                        # Compute ranks only if both conditions are met
+                        ranks = fct.computeRanks(updatedMatrix)
+                        print("\n📊 Ranks of the vertices:\n")
+                        for i, rank in enumerate(ranks):
+                            print(f"Task {i}: Rank {rank}")
+                        print("\n")
 
-                        # Check for negative edge weights
-                        if fct.has_negative_edges(updatedMatrix):
-                            print("❌ The graph contains negative edge(s). This is not allowed in scheduling.\n")
-                        else:
-                            print("✅ No negative edge weights found.\n")
-
-
-                            # Compute ranks only if both conditions are met
-                            ranks = fct.computeRanks(updatedMatrix)
-                            print("\n📊 Ranks of the vertices:\n")
-                            for i, rank in enumerate(ranks):
-                                print(f"Task {i}: Rank {rank}")
-
-                            
-                            # STEP 5: Compute Schedules
-                            sorted_order = fct.compute_sorted_order(updatedMatrix)
-                            schedule_data = fct.compute_schedules(updatedMatrix, sorted_order)
-                            
-                            # Display earliest start times.
-                            print("\n📅 Earliest Start Dates:\n")
-                            for node, es in schedule_data["earliest_start"].items():
-                                print(f"Task {node}: {es}")
-                            
-                            # Display latest start times
-                            print("\n📅 Latest Start Dates:\n")
-                            for node, ls in schedule_data["latest_start"].items():
-                                print(f"Task {node}: {ls}")
-                            
-                            # Display floats (slack times)
-                            print("\n📅 Floats:\n")
-                            for node, fl in schedule_data["floats"].items():
-                                print(f"Task {node}: {fl}")
-                            
-                            # STEP 6: Display the critical path
-                            fct.display_critical_path(schedule_data["critical_path"])
+                        # Compute and display the earliest dates, latest dates, floats, critical path
+                        print("Computing : earliest date, latest date, floats, critical path\n")
+                        updatedMatrix = fct.convert_adj_matrix(updatedMatrix)
+                        earliest_dates, latest_dates, floats, critical_path = fct.scheduling_analysis(
+                            updatedMatrix, ranks, updatedData)
+                        
+                        print("\nScheduling analysis completed!")
 
                 print("\n###################################################################################")
             except NameError:
