@@ -35,7 +35,7 @@ It computes scheduling ranks, detects cycles, and identifies the critical path u
 To run the project locally:
 
 ```bash
-git clone https://github.com/chealeanpenhchakrith/Graph-Theory-Project.git
+git clone https://github.com/chealeanpenhchakrith/Schedulink.git
 cd Graph-Theory-Project
 python3 -m venv env
 source env/bin/activate
