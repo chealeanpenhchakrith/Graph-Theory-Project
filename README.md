@@ -7,8 +7,8 @@ It computes scheduling ranks, detects cycles, and identifies the critical path u
 
 ## 🖼️ Preview
 
-> *(Add a terminal screenshot or trace example if available)*  
-> ![Scheduling Graph Preview](./screenshot.png)
+![Scheduling Graph Preview](./graph1.png)
+![Scheduling Graph Preview](./graph2.png)
 
 ---
 
