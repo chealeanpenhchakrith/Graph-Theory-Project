@@ -1,67 +1,43 @@
 # 📅 Scheduling Graph
 
-## 🧠 Description
+**Scheduling Graph** is a Python tool for analyzing project scheduling constraints through graph theory.  
+It computes scheduling ranks, detects cycles, and identifies the critical path using the **Critical Path Method (CPM)**.
 
-This project models a **scheduling graph** in Python, allowing you to analyze constraints, compute scheduling ranks, detect cycles, and determine critical paths in project management scenarios.
+---
+
+## 🖼️ Preview
+
+> *(Add a terminal screenshot or trace example if available)*  
+> ![Scheduling Graph Preview](./screenshot.png)
 
 ---
 
 ## ✨ Features
 
-- ✅ **Read Constraint Tables**
-- ✅ **Graph Construction** (displaying the value matrix)
-- ✅ **Graph Verification** (detection of cycles and negative arcs)
-- ✅ **Compute Ranks** of all vertices
-- ✅ **Earliest and Latest Scheduling** with float (margins)
-- ✅ **Critical Path Method (CPM)** analysis
+- Read and parse constraint tables
+- Construct the scheduling graph from input
+- Detect cycles and negative arcs
+- Compute ranks of vertices
+- Calculate earliest and latest dates, and float margins
+- Identify the critical path using CPM
 
 ---
 
-## ⚙️ Installation & Launch
+## 🛠 Technologies Used
 
-Follow these steps to get started:
+- ![Python](https://img.shields.io/badge/-Python-3776AB?style=flat&logo=python&logoColor=white)
+- ![PrettyTable](https://img.shields.io/badge/-PrettyTable-4B8BBE?style=flat)
 
-### 1️⃣ Clone the Repository
+---
+
+## 📦 Getting Started
+
+To run the project locally:
 
 ```bash
 git clone https://github.com/chealeanpenhchakrith/Graph-Theory-Project.git
 cd Graph-Theory-Project
-```
-
-### 2️⃣ Create a Virtual Environment (Optional but Recommended)
-
-🔹 On macOS / Linux:
-
-```bash
 python3 -m venv env
 source env/bin/activate
-```
-🔸 On Windows:
-```bash
-python -m venv env
-env\Scripts\activate
-```
-### 3️⃣ Install Dependencies
-
-```bash
 pip install prettytable
-```
-### 4️⃣ Run the Project 🚀
-
-```bash
 python main.py
-```
-
-### 📂 Project Structure
-
-```bash
-Graph-Theory-Project/
-├── python.py                          # Main script to run the scheduling graph
-├── Test constraint tables             # Input data file for constraints
-├── Steps.py                           # Logical functions
-├── Traces of each constraint tables   # Trace of table results
-├── __pycache__                        # Python cache
-├── env                                # Virtual environment
-├── .gitignore                         # ignore useless tracked files
-├── README.md                          # You're reading it now!
-```
